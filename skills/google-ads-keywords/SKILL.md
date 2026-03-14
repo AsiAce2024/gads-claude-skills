@@ -1,6 +1,6 @@
 ---
 name: google-ads-keywords
-description: "When the user wants help with Google Ads keyword research, keyword strategy, match types, negative keywords, search term analysis, keyword planning, keyword organization, or keyword audits. Triggers on 'keyword research', 'keyword strategy', 'match types', 'negative keywords', 'search terms', 'keyword planner', 'keyword audit', 'broad match', 'phrase match', 'exact match', 'keyword expansion', or 'keyword list'. For building search campaigns with keywords see google-ads-search. For bid management on keywords see google-ads-bidding."
+description: "When the user wants help with Google Ads keyword research, keyword strategy, match types, search term analysis, keyword planning, keyword organization, or keyword audits. Triggers on 'keyword research', 'keyword strategy', 'match types', 'search terms', 'keyword planner', 'keyword audit', 'broad match', 'phrase match', 'exact match', 'keyword expansion', or 'keyword list'. For deep negative keyword optimization, wasted spend elimination, or cannibalization prevention see google-ads-negative-keywords. For building search campaigns see google-ads-search. For bid management on keywords see google-ads-bidding."
 metadata:
   version: 1.0.0
 ---
@@ -314,6 +314,7 @@ For existing accounts with stale keyword lists:
 
 ## Related Skills
 
+- **google-ads-negative-keywords**: Deep negative keyword optimization, search term mining, cannibalization prevention
 - **google-ads-search**: Building search campaigns with the keywords you've researched
 - **google-ads-bidding**: Setting bids and bid strategies per keyword
 - **google-ads-audiences**: Layering audiences on top of keyword targeting
