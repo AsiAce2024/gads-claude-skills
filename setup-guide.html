@@ -1,0 +1,1119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Google Ads AI Agent — Full Setup Guide</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: '#1a73e8',
+            surface: '#f8fafc',
+            'surface-alt': '#f1f5f9',
+            border: '#e2e8f0',
+            'code-bg': '#1e293b',
+            'code-text': '#e2e8f0',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+    body { font-family: 'Inter', system-ui, sans-serif; }
+    code, pre, .font-mono { font-family: 'JetBrains Mono', monospace; }
+    pre { position: relative; }
+    .copy-btn { position: absolute; top: 0.5rem; right: 0.5rem; opacity: 0; transition: opacity 0.15s; }
+    pre:hover .copy-btn { opacity: 1; }
+    .step-line { position: absolute; left: 1.25rem; top: 2.75rem; bottom: -1.5rem; width: 2px; background: #e2e8f0; }
+    .check-item input:checked + span { text-decoration: line-through; color: #94a3b8; }
+    details summary { cursor: pointer; }
+    details summary::-webkit-details-marker { display: none; }
+    details[open] summary .chev { transform: rotate(90deg); }
+    .chev { transition: transform 0.15s; display: inline-block; }
+    .phase-header { scroll-margin-top: 2rem; }
+  </style>
+</head>
+<body class="bg-white text-slate-800 antialiased">
+
+  <!-- Header -->
+  <header class="bg-code-bg text-white">
+    <div class="max-w-3xl mx-auto px-6 py-12">
+      <h1 class="text-3xl font-bold mb-3">Google Ads AI Agent</h1>
+      <p class="text-slate-300 text-lg max-w-2xl">
+        Complete setup guide. Follow each step in order, top to bottom.
+        Check each box as you go.
+      </p>
+      <div class="flex flex-wrap gap-4 mt-6 text-sm text-slate-400">
+        <span>Read-only access</span>
+        <span>21 optimization skills</span>
+        <span>MCC supported</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- What you'll have + Glossary -->
+  <section class="max-w-3xl mx-auto px-6 py-8 border-b border-border">
+    <div class="grid sm:grid-cols-2 gap-6">
+      <div>
+        <h2 class="text-sm font-semibold text-slate-500 uppercase tracking-wider mb-3">What you'll have when done</h2>
+        <ul class="text-sm text-slate-600 space-y-2">
+          <li>Claude connected to <strong>live Google Ads data</strong> via the official Google MCP server</li>
+          <li><strong>21 expert skills</strong> loaded — audit frameworks, keyword playbooks, bidding diagnostics, and more</li>
+          <li>The ability to ask things like <em>"What's driving my CPA spike this week?"</em> and get a data-backed, structured answer from the actual account</li>
+        </ul>
+      </div>
+      <div>
+        <h2 class="text-sm font-semibold text-slate-500 uppercase tracking-wider mb-3">Quick glossary</h2>
+        <dl class="text-sm space-y-2">
+          <dt class="font-medium text-slate-700">MCP server (the data pipe)</dt>
+          <dd class="text-slate-500 text-xs">A bridge that lets Claude read data from Google Ads. Claude asks questions, the MCP server translates them into API calls and returns the data.</dd>
+          <dt class="font-medium text-slate-700 mt-2">Google Ads Skills (the expert brain)</dt>
+          <dd class="text-slate-500 text-xs">Knowledge files that teach Claude <em>how</em> to analyze the data — audit frameworks, optimization playbooks, diagnostic checklists. Without them, Claude can query data but won't know what to do with it.</dd>
+          <dt class="font-medium text-slate-700 mt-2">MCC (Manager account)</dt>
+          <dd class="text-slate-500 text-xs">The "umbrella" Google Ads account that manages one or more sub-accounts. Required for the Developer Token.</dd>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <!-- TOC -->
+  <nav class="max-w-3xl mx-auto px-6 py-8 border-b border-border">
+    <h2 class="text-sm font-semibold text-slate-500 uppercase tracking-wider mb-4">Phases</h2>
+    <ol class="grid sm:grid-cols-2 gap-2 text-sm">
+      <li><a href="#phase-1" class="text-brand hover:underline">1. Install prerequisites</a></li>
+      <li><a href="#phase-2" class="text-brand hover:underline">2. Create a Google Cloud project</a></li>
+      <li><a href="#phase-3" class="text-brand hover:underline">3. Set up OAuth consent screen</a></li>
+      <li><a href="#phase-4" class="text-brand hover:underline">4. Create OAuth credentials</a></li>
+      <li><a href="#phase-5" class="text-brand hover:underline">5. Get a Google Ads Developer Token</a></li>
+      <li><a href="#phase-6" class="text-brand hover:underline">6. Authenticate your machine</a></li>
+      <li><a href="#phase-7" class="text-brand hover:underline">7. Install the Google Ads MCP server</a></li>
+      <li><a href="#phase-8" class="text-brand hover:underline">8. Configure Claude Code</a></li>
+      <li><a href="#phase-9" class="text-brand hover:underline">9. Sanity check the connection</a></li>
+      <li><a href="#phase-10" class="text-brand hover:underline">10. Configure Claude Desktop (optional)</a></li>
+      <li><a href="#phase-11" class="text-brand hover:underline">11. Install the Google Ads skills</a></li>
+      <li><a href="#phase-12" class="text-brand hover:underline">12. Final verification</a></li>
+    </ol>
+  </nav>
+
+  <!-- ============================================ -->
+  <!-- Client Pre-Session Checklist -->
+  <!-- ============================================ -->
+  <section class="max-w-3xl mx-auto px-6 py-8 border-b border-border">
+    <div class="flex items-center justify-between mb-4">
+      <h2 class="text-xl font-semibold">Send to client before the session</h2>
+      <div class="flex items-center gap-1 bg-slate-100 rounded-lg p-0.5 text-sm">
+        <button id="lang-en" onclick="setLang('en')" class="px-3 py-1.5 rounded-md font-medium transition-colors bg-white shadow text-slate-800">English</button>
+        <button id="lang-he" onclick="setLang('he')" class="px-3 py-1.5 rounded-md font-medium transition-colors text-slate-500 hover:text-slate-700">עברית</button>
+      </div>
+    </div>
+    <p class="text-sm text-slate-500 mb-4">Copy and send this to your client so they can prepare everything before you start the setup together.</p>
+
+    <div class="relative">
+      <button onclick="copyChecklist()" id="checklist-copy-btn" class="absolute top-3 right-3 bg-slate-700 hover:bg-slate-600 text-xs text-slate-300 px-3 py-1.5 rounded font-medium transition-colors z-10">Copy</button>
+
+      <!-- English version -->
+      <div id="checklist-en" class="bg-code-bg text-code-text rounded-lg p-5 pr-20 text-sm leading-relaxed whitespace-pre-wrap">Before our setup session, please make sure you have the following ready:
+
+1. CLAUDE SUBSCRIPTION
+   You need an active Claude Pro or Max plan.
+   Sign up at: claude.ai
+   (Free tier does not include Claude Code)
+
+2. GOOGLE ADS ACCOUNT
+   You need an active Google Ads account with campaign data.
+   Recommended: a Manager account (MCC) — it lets you manage
+   multiple accounts from one place and makes API setup easier.
+   If you don't have an MCC, you can create one free at:
+   ads.google.com/home/tools/manager-accounts/
+   A regular (single) Google Ads account works too.
+
+3. WHICH GOOGLE ACCOUNT HAS ADS ACCESS?
+   Write down the email address that has access to the Google Ads
+   account(s) you want to connect. We'll need it during setup.
+
+4. CAN YOU INSTALL SOFTWARE ON YOUR COMPUTER?
+   We'll need to install: Python, Node.js, Git, and Google Cloud CLI.
+   If your company locks down software installs, check with IT first.
+
+5. ADMIN RIGHTS (Windows only)
+   One step requires running PowerShell as Administrator.
+   Make sure you can do this on your machine.
+
+---
+In our first session we'll set everything up using a test token
+(available immediately — no waiting). In a follow-up session
+we'll upgrade to full API access.
+
+Once you've confirmed all 5 items, we're ready to go.</div>
+
+      <!-- Hebrew version -->
+      <div id="checklist-he" class="bg-code-bg text-code-text rounded-lg p-5 pr-20 text-sm leading-relaxed whitespace-pre-wrap hidden" dir="rtl" lang="he">לפני שנתחיל את ההתקנה, בבקשה וודא/י שהדברים הבאים מוכנים:
+
+1. מנוי CLAUDE
+   צריך מנוי Claude Pro או Max פעיל.
+   הרשמה ב: claude.ai
+   (הגרסה החינמית לא כוללת Claude Code)
+
+2. חשבון GOOGLE ADS
+   צריך חשבון Google Ads פעיל עם נתוני קמפיינים.
+   מומלץ: חשבון מנהל (MCC) — מאפשר לנהל מספר חשבונות
+   ממקום אחד ומקל על הגדרת ה-API.
+   אם אין לך MCC, אפשר לפתוח בחינם כאן:
+   ads.google.com/home/tools/manager-accounts/
+   חשבון Google Ads רגיל (יחיד) גם עובד.
+
+3. איזה חשבון GOOGLE מחובר לפרסום?
+   רשום/י את כתובת המייל שיש לה גישה לחשבון/ות
+   Google Ads שרוצים לחבר. נצטרך את זה בהתקנה.
+
+4. אפשר להתקין תוכנות על המחשב?
+   נצטרך להתקין: Python, Node.js, Git ו-Google Cloud CLI.
+   אם החברה חוסמת התקנות, בדוק/י מראש עם ה-IT.
+
+5. הרשאות מנהל (Windows בלבד)
+   שלב אחד דורש הרצת PowerShell כ-Administrator.
+   וודא/י שזה אפשרי במחשב שלך.
+
+---
+במפגש הראשון נגדיר הכל עם טוקן בדיקה (זמין מיד — בלי המתנה).
+במפגש המשך נשדרג לגישת API מלאה.
+
+ברגע שאישרת את כל 5 הסעיפים, אפשר להתחיל.</div>
+    </div>
+  </section>
+
+  <main class="max-w-3xl mx-auto px-6">
+
+    <!-- ============================================ -->
+    <!-- PHASE 1: Prerequisites -->
+    <!-- ============================================ -->
+    <section id="phase-1" class="py-10 border-b border-border phase-header">
+      <div class="flex items-center gap-3 mb-6">
+        <div class="w-10 h-10 rounded-full bg-brand text-white flex items-center justify-center text-sm font-bold shrink-0">1</div>
+        <h2 class="text-xl font-semibold">Install prerequisites</h2>
+      </div>
+      <p class="text-sm text-slate-600 mb-4">Make sure each of these is installed before continuing. Check the box once confirmed.</p>
+
+      <div class="space-y-4">
+        <!-- Python -->
+        <div class="bg-surface rounded-lg border border-border p-4">
+          <div class="check-item flex gap-2 text-sm font-medium mb-2"><input type="checkbox" class="accent-brand" /><span>Python 3.10 or newer</span></div>
+          <p class="text-xs text-slate-500 mb-2">Check with:</p>
+          <pre class="bg-code-bg text-code-text rounded-lg p-3 text-sm"><button class="copy-btn bg-slate-700 hover:bg-slate-600 text-xs text-slate-300 px-2 py-1 rounded" onclick="copyCode(this)">Copy</button>python --version</pre>
+          <p class="text-xs text-slate-500 mt-2">If not installed: download from <strong>python.org/downloads</strong>. During install, check "Add Python to PATH".</p>
+        </div>
+
+        <!-- gcloud -->
+        <div class="bg-surface rounded-lg border border-border p-4">
+          <div class="check-item flex gap-2 text-sm font-medium mb-2"><input type="checkbox" class="accent-brand" /><span>Google Cloud CLI (gcloud)</span></div>
+          <p class="text-xs text-slate-500 mb-2">Check with:</p>
+          <pre class="bg-code-bg text-code-text rounded-lg p-3 text-sm"><button class="copy-btn bg-slate-700 hover:bg-slate-600 text-xs text-slate-300 px-2 py-1 rounded" onclick="copyCode(this)">Copy</button>gcloud --version</pre>
+          <p class="text-xs text-slate-500 mt-2">If not installed: download from <strong>cloud.google.com/sdk/docs/install</strong>. Run the installer and restart your terminal.</p>
+        </div>
+
+        <!-- Git -->
+        <div class="bg-surface rounded-lg border border-border p-4">
+          <div class="check-item flex gap-2 text-sm font-medium mb-2"><input type="checkbox" class="accent-brand" /><span>Git</span></div>
+          <p class="text-xs text-slate-500 mb-2">Check with:</p>
+          <pre class="bg-code-bg text-code-text rounded-lg p-3 text-sm"><button class="copy-btn bg-slate-700 hover:bg-slate-600 text-xs text-slate-300 px-2 py-1 rounded" onclick="copyCode(this)">Copy</button>git --version</pre>
+          <p class="text-xs text-slate-500 mt-2">If not installed: download from <strong>git-scm.com</strong>.</p>
+        </div>
+
+        <!-- Node -->
+        <div class="bg-surface rounded-lg border border-border p-4">
+          <div class="check-item flex gap-2 text-sm font-medium mb-2"><input type="checkbox" class="accent-brand" /><span>Node.js 18 or newer</span></div>
+          <p class="text-xs text-slate-500 mb-2">Check with:</p>
+          <pre class="bg-code-bg text-code-text rounded-lg p-3 text-sm"><button class="copy-btn bg-slate-700 hover:bg-slate-600 text-xs text-slate-300 px-2 py-1 rounded" onclick="copyCode(this)">Copy</button>node -v</pre>
+          <p class="text-xs text-slate-500 mt-2">If not installed: download from <strong>nodejs.org</strong>.</p>
+        </div>
+
+        <!-- Claude Code -->
+        <div class="bg-surface rounded-lg border border-border p-4">
+          <div class="check-item flex gap-2 text-sm font-medium mb-2"><input type="checkbox" class="accent-brand" /><span>Claude Code installed and working</span></div>
+          <p class="text-xs text-slate-500">The AI agent that will use the Google Ads connection.</p>
+        </div>
+
+        <!-- Google Ads MCC -->
+        <div class="bg-surface rounded-lg border border-border p-4">
+          <div class="check-item flex gap-2 text-sm font-medium mb-2"><input type="checkbox" class="accent-brand" /><span>Google Ads Manager (MCC) account</span></div>
+          <p class="text-xs text-slate-500 mt-1">
+            This is the "umbrella" account that manages one or more Google Ads accounts. You need it to get a Developer Token.
+          </p>
+          <p class="text-xs text-slate-500 mt-1">
+            Don't have one? Create one free at <strong>ads.google.com/home/tools/manager-accounts/</strong> — even if you only manage a single account.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- PHASE 2: Google Cloud Project -->
+    <!-- ============================================ -->
+    <section id="phase-2" class="py-10 border-b border-border phase-header">
+      <div class="flex items-center gap-3 mb-6">
+        <div class="w-10 h-10 rounded-full bg-brand text-white flex items-center justify-center text-sm font-bold shrink-0">2</div>
+        <h2 class="text-xl font-semibold">Create a Google Cloud project</h2>
+      </div>
+
+      <!-- Why GCP explainer -->
+      <div class="bg-surface-alt border border-border rounded-lg p-5 mb-6">
+        <h3 class="text-sm font-semibold mb-3">Why do I need Google Cloud for this?</h3>
+        <p class="text-sm text-slate-600 mb-3">
+          Google Ads doesn't let apps connect directly. Instead, Google requires every app that reads Ads data to go through <strong>Google Cloud Platform (GCP)</strong> — their developer infrastructure. Think of it as the gatehouse between your AI agent and the Ads data.
+        </p>
+        <p class="text-sm text-slate-600 mb-3">Here's what each piece does and why it's needed:</p>
+        <table class="w-full text-sm border-collapse">
+          <thead>
+            <tr class="text-left text-xs text-slate-500 uppercase">
+              <th class="py-2 pr-4 border-b border-border">What you create</th>
+              <th class="py-2 pr-4 border-b border-border">What it does</th>
+              <th class="py-2 border-b border-border">Analogy</th>
+            </tr>
+          </thead>
+          <tbody class="text-slate-600">
+            <tr>
+              <td class="py-2 pr-4 border-b border-border font-medium">GCP Project</td>
+              <td class="py-2 pr-4 border-b border-border">A container that holds all your API credentials and settings. One project per client or per setup.</td>
+              <td class="py-2 border-b border-border text-xs text-slate-500">Like a folder on your computer — everything for this setup lives inside it</td>
+            </tr>
+            <tr>
+              <td class="py-2 pr-4 border-b border-border font-medium">Google Ads API (enabled)</td>
+              <td class="py-2 pr-4 border-b border-border">Tells Google "this project is allowed to talk to Google Ads." Without this, API calls are rejected.</td>
+              <td class="py-2 border-b border-border text-xs text-slate-500">Flipping the switch that unlocks the Ads data door</td>
+            </tr>
+            <tr>
+              <td class="py-2 pr-4 border-b border-border font-medium">OAuth consent screen <span class="text-xs text-slate-400">(Phase 3)</span></td>
+              <td class="py-2 pr-4 border-b border-border">The login screen Google shows when you authenticate. It says "this app wants to read your Ads data — allow?"</td>
+              <td class="py-2 border-b border-border text-xs text-slate-500">The "Sign in with Google" popup you see on other apps</td>
+            </tr>
+            <tr>
+              <td class="py-2 pr-4 border-b border-border font-medium">OAuth credentials <span class="text-xs text-slate-400">(Phase 4)</span></td>
+              <td class="py-2 pr-4 border-b border-border">A Client ID + Secret pair that identifies your app to Google. Downloaded as a JSON file.</td>
+              <td class="py-2 border-b border-border text-xs text-slate-500">Like a username and password — but for your app, not for you</td>
+            </tr>
+            <tr>
+              <td class="py-2 pr-4 font-medium">Developer Token <span class="text-xs text-slate-400">(Phase 5)</span></td>
+              <td class="py-2 pr-4">A key from Google Ads itself (not GCP) that grants API-level access to Ads data. Requires an MCC account.</td>
+              <td class="py-2 text-xs text-slate-500">The VIP pass that says "Google approves this app to read Ads data"</td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="text-xs text-slate-500 mt-3">All of this is <strong>free</strong>. You don't need billing enabled, a credit card, or a paid GCP plan. The free tier covers everything needed here.</p>
+      </div>
+
+      <!-- Why official MCP -->
+      <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 text-sm text-blue-800 mb-6">
+        <strong>Why Google's official MCP server?</strong>
+        <p class="mt-1">This guide uses Google's own open-source MCP server (<code class="text-xs">github.com/googleads/google-ads-mcp</code>) rather than third-party connectors like Windsor or Supermetrics. Three reasons:</p>
+        <ol class="list-decimal list-inside mt-2 space-y-1 text-xs">
+          <li><strong>Account safety</strong> — Meta has started cracking down on unauthorized MCP usage and blocking ad accounts. Google may follow. The official server is the only one Google themselves built and approved.</li>
+          <li><strong>No ongoing cost</strong> — Windsor and Supermetrics charge monthly fees. The official MCP is free forever.</li>
+          <li><strong>Full data access</strong> — The official server supports GAQL (Google Ads Query Language), giving you access to every report and metric the API offers. Third-party connectors often expose a subset.</li>
+        </ol>
+      </div>
+
+      <h3 class="text-sm font-semibold mb-4">Now let's create the project</h3>
+
+      <div class="space-y-6">
+        <div class="relative pl-10">
+          <div class="absolute left-0 top-0 w-7 h-7 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center text-xs font-bold">a</div>
+          <div class="step-line"></div>
+          <p class="text-sm text-slate-700">Go to <strong>console.cloud.google.com</strong></p>
+          <p class="text-xs text-slate-500 mt-1">Sign in with the Google account that has access to the Google Ads account you want to connect. If you've never used Google Cloud before, it will ask you to agree to terms of service — just accept and continue.</p>
+        </div>
+
+        <div class="relative pl-10">
+          <div class="absolute left-0 top-0 w-7 h-7 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center text-xs font-bold">b</div>
+          <div class="step-line"></div>
+          <p class="text-sm text-slate-700">Click the project dropdown at the top of the page &rarr; <strong>New Project</strong></p>
+          <p class="text-xs text-slate-500 mt-1">Give it any name (e.g., "google-ads-mcp"). Leave organization as default. Click <strong>Create</strong>.</p>
+          <p class="text-xs text-slate-500 mt-1">It may take a few seconds. You'll see a notification when it's ready.</p>
+        </div>
+
+        <div class="relative pl-10">
+          <div class="absolute left-0 top-0 w-7 h-7 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center text-xs font-bold">c</div>
+          <div class="step-line"></div>
+          <p class="text-sm text-slate-700">Make sure you're inside the new project.</p>
+          <p class="text-xs text-slate-500 mt-1">Check the dropdown at the top — it should show your project name. If it still shows an old project or "Select a project", click the dropdown and select the one you just created.</p>
+        </div>
+
+        <div class="relative pl-10">
+          <div class="absolute left-0 top-0 w-7 h-7 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center text-xs font-bold">d</div>
+          <div class="step-line"></div>
+          <p class="text-sm text-slate-700">In the left sidebar: <strong>APIs &amp; Services &rarr; Library</strong></p>
+          <p class="text-xs text-slate-500 mt-1">This opens a searchable catalog of all Google APIs. Search for <strong>"Google Ads API"</strong> and click on it.</p>
+        </div>
+
+        <div class="relative pl-10">
+          <div class="absolute left-0 top-0 w-7 h-7 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center text-xs font-bold">e</div>
+          <p class="text-sm text-slate-700">Click <strong>Enable</strong>.</p>
+          <p class="text-xs text-slate-500 mt-1">This turns on the Google Ads API for your project. If you see "Manage" instead of "Enable", it's already on — you're good.</p>
+        </div>
+
+        <div class="bg-slate-50 border border-border rounded-lg p-3 text-xs text-slate-600 mt-2">
+          <strong>Write down your Project ID</strong> — you'll see it on the project dashboard or in the URL bar. It looks like <code>my-project-123456</code> or <code>abstract-sunset-491011</code>. You'll need it in Phase 8 when configuring Claude.
+        </div>
+
+        <div class="check-item flex gap-2 text-sm mt-4"><input type="checkbox" class="accent-brand" /><span>Google Cloud project created and Google Ads API enabled</span></div>
+        <div class="check-item flex gap-2 text-sm"><input type="checkbox" class="accent-brand" /><span>Project ID written down</span></div>
+      </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- PHASE 3: OAuth Consent Screen -->
+    <!-- ============================================ -->
+    <section id="phase-3" class="py-10 border-b border-border phase-header">
+      <div class="flex items-center gap-3 mb-6">
+        <div class="w-10 h-10 rounded-full bg-brand text-white flex items-center justify-center text-sm font-bold shrink-0">3</div>
+        <h2 class="text-xl font-semibold">Set up the OAuth consent screen</h2>
+      </div>
+      <p class="text-sm text-slate-500 mb-4">This tells Google what your app is and who can use it. Without this, authentication will fail.</p>
+
+      <div class="bg-red-50 border border-red-200 rounded-lg p-4 text-sm text-red-800 mb-6">
+        <strong>This is the #1 reason installs fail.</strong> If you skip or misconfigure this step, you'll get "This app is blocked" later and have to come back here anyway.
+      </div>
+
+      <div class="space-y-6">
+        <div class="relative pl-10">
+          <div class="absolute left-0 top-0 w-7 h-7 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center text-xs font-bold">a</div>
+          <div class="step-line"></div>
+          <p class="text-sm text-slate-700">In Google Cloud Console, go to <strong>APIs &amp; Services &rarr; OAuth consent screen</strong></p>
+        </div>
+
+        <div class="relative pl-10">
+          <div class="absolute left-0 top-0 w-7 h-7 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center text-xs font-bold">b</div>
+          <div class="step-line"></div>
+          <p class="text-sm text-slate-700">Choose <strong>External</strong> as the user type and click <strong>Create</strong></p>
+          <p class="text-xs text-slate-500 mt-1">"Internal" only works for Google Workspace orgs. External works for everyone.</p>
+        </div>
+
+        <div class="relative pl-10">
+          <div class="absolute left-0 top-0 w-7 h-7 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center text-xs font-bold">c</div>
+          <div class="step-line"></div>
+          <p class="text-sm text-slate-700">Fill in the required fields:</p>
+          <ul class="text-xs text-slate-500 mt-1 space-y-1 list-disc list-inside">
+            <li><strong>App name</strong>: anything (e.g., "Google Ads MCP")</li>
+            <li><strong>User support email</strong>: your email</li>
+            <li><strong>Developer contact email</strong>: your email</li>
+          </ul>
+          <p class="text-xs text-slate-500 mt-1">Skip optional fields. Click <strong>Save and Continue</strong>.</p>
+        </div>
+
+        <div class="relative pl-10">
+          <div class="absolute left-0 top-0 w-7 h-7 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center text-xs font-bold">d</div>
+          <div class="step-line"></div>
+          <p class="text-sm text-slate-700">On the <strong>Scopes</strong> page, just click <strong>Save and Continue</strong> (no changes needed).</p>
+        </div>
+
+        <div class="relative pl-10">
+          <div class="absolute left-0 top-0 w-7 h-7 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center text-xs font-bold">e</div>
+          <div class="step-line"></div>
+          <p class="text-sm text-slate-700">On the <strong>Test users</strong> page, click <strong>Add Users</strong>.</p>
+          <p class="text-xs text-slate-500 mt-1">Add the email address of the Google account that owns or has access to the Google Ads account.</p>
+          <p class="text-xs text-slate-500 mt-1">If the Google Cloud project owner and the Google Ads account owner are different emails, <strong>add both</strong>.</p>
+        </div>
+
+        <div class="relative pl-10">
+          <div class="absolute left-0 top-0 w-7 h-7 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center text-xs font-bold">f</div>
+          <p class="text-sm text-slate-700">Click <strong>Save and Continue</strong>, then <strong>Back to Dashboard</strong>.</p>
+        </div>
+
+        <div class="check-item flex gap-2 text-sm mt-4"><input type="checkbox" class="accent-brand" /><span>OAuth consent screen created with test users added</span></div>
+      </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- PHASE 4: Create OAuth Credentials -->
+    <!-- ============================================ -->
+    <section id="phase-4" class="py-10 border-b border-border phase-header">
+      <div class="flex items-center gap-3 mb-6">
+        <div class="w-10 h-10 rounded-full bg-brand text-white flex items-center justify-center text-sm font-bold shrink-0">4</div>
+        <h2 class="text-xl font-semibold">Create OAuth credentials</h2>
+      </div>
+      <p class="text-sm text-slate-500 mb-6">These credentials let your machine authenticate with Google on your behalf.</p>
+
+      <div class="space-y-6">
+        <div class="relative pl-10">
+          <div class="absolute left-0 top-0 w-7 h-7 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center text-xs font-bold">a</div>
+          <div class="step-line"></div>
+          <p class="text-sm text-slate-700">In Google Cloud Console: <strong>APIs &amp; Services &rarr; Credentials</strong></p>
+        </div>
+
+        <div class="relative pl-10">
+          <div class="absolute left-0 top-0 w-7 h-7 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center text-xs font-bold">b</div>
+          <div class="step-line"></div>
+          <p class="text-sm text-slate-700">Click <strong>+ Create Credentials</strong> at the top &rarr; choose <strong>OAuth client ID</strong></p>
+        </div>
+
+        <div class="relative pl-10">
+          <div class="absolute left-0 top-0 w-7 h-7 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center text-xs font-bold">c</div>
+          <div class="step-line"></div>
+          <p class="text-sm text-slate-700">Application type: <strong>Desktop app</strong></p>
+          <p class="text-xs text-slate-500 mt-1">Name it anything (e.g., "Google Ads MCP Desktop"). Click <strong>Create</strong>.</p>
+        </div>
+
+        <div class="relative pl-10">
+          <div class="absolute left-0 top-0 w-7 h-7 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center text-xs font-bold">d</div>
+          <div class="step-line"></div>
+          <p class="text-sm text-slate-700">A popup appears with your Client ID and Client Secret. Click <strong>Download JSON</strong>.</p>
+        </div>
+
+        <div class="relative pl-10">
+          <div class="absolute left-0 top-0 w-7 h-7 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center text-xs font-bold">e</div>
+          <p class="text-sm text-slate-700">Save the downloaded JSON file somewhere you'll remember.</p>
+          <p class="text-xs text-slate-500 mt-1">Suggested location:</p>
+          <div class="mt-2 space-y-1">
+            <pre class="bg-code-bg text-code-text rounded-lg p-3 text-sm"><button class="copy-btn bg-slate-700 hover:bg-slate-600 text-xs text-slate-300 px-2 py-1 rounded" onclick="copyCode(this)">Copy</button>Windows: C:\Users\YOUR_USERNAME\.credentials\google-ads-oauth.json
+Mac:     ~/.credentials/google-ads-oauth.json</pre>
+          </div>
+        </div>
+
+        <div class="bg-amber-50 border border-amber-200 rounded-lg p-3 text-sm text-amber-800 mt-2">
+          <strong>If you already closed the popup</strong> and didn't download the JSON, you can recreate it manually. Go to <strong>Credentials</strong>, click on the OAuth client you just created, and copy the Client ID and Client Secret. Then create a file with this structure:
+          <pre class="mt-2 bg-amber-100 rounded p-3 text-xs overflow-x-auto">{
+  "installed": {
+    "client_id": "YOUR_CLIENT_ID",
+    "client_secret": "YOUR_CLIENT_SECRET",
+    "redirect_uris": ["http://localhost"],
+    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+    "token_uri": "https://oauth2.googleapis.com/token"
+  }
+}</pre>
+        </div>
+
+        <div class="check-item flex gap-2 text-sm mt-4"><input type="checkbox" class="accent-brand" /><span>OAuth JSON file downloaded and saved</span></div>
+      </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- PHASE 5: Developer Token -->
+    <!-- ============================================ -->
+    <section id="phase-5" class="py-10 border-b border-border phase-header">
+      <div class="flex items-center gap-3 mb-6">
+        <div class="w-10 h-10 rounded-full bg-brand text-white flex items-center justify-center text-sm font-bold shrink-0">5</div>
+        <h2 class="text-xl font-semibold">Get a Google Ads Developer Token</h2>
+      </div>
+      <p class="text-sm text-slate-500 mb-6">The Developer Token is what grants API access to Google Ads data. It comes from your MCC (Manager) account.</p>
+
+      <div class="space-y-6">
+        <div class="relative pl-10">
+          <div class="absolute left-0 top-0 w-7 h-7 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center text-xs font-bold">a</div>
+          <div class="step-line"></div>
+          <p class="text-sm text-slate-700">Log into your <strong>MCC (Manager) account</strong> at <strong>ads.google.com</strong></p>
+          <p class="text-xs text-slate-500 mt-1">Make sure you're in the Manager account, not a sub-account. The top bar should say "Manager account" or show the MCC name.</p>
+        </div>
+
+        <div class="relative pl-10">
+          <div class="absolute left-0 top-0 w-7 h-7 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center text-xs font-bold">b</div>
+          <div class="step-line"></div>
+          <p class="text-sm text-slate-700">Click <strong>Admin</strong> (wrench icon) in the top bar &rarr; <strong>API Center</strong></p>
+        </div>
+
+        <div class="relative pl-10">
+          <div class="absolute left-0 top-0 w-7 h-7 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center text-xs font-bold">c</div>
+          <div class="step-line"></div>
+          <p class="text-sm text-slate-700">If you don't have a token yet: fill in the application form and submit.</p>
+          <p class="text-xs text-slate-500 mt-1">Google reviews these. Approval can take <strong>up to 48 hours</strong>. You can't continue past Phase 6 until it's approved.</p>
+        </div>
+
+        <div class="relative pl-10">
+          <div class="absolute left-0 top-0 w-7 h-7 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center text-xs font-bold">d</div>
+          <p class="text-sm text-slate-700">Once approved, copy the <strong>Developer Token</strong> from the API Center page.</p>
+        </div>
+
+        <div class="bg-amber-50 border border-amber-200 rounded-lg p-3 text-sm text-amber-800 mt-2">
+          <strong>Also write down your MCC Customer ID.</strong> It's the 10-digit number in the top-right of the MCC dashboard (format: XXX-XXX-XXXX). You'll need it without dashes later (e.g., 1234567890).
+        </div>
+
+        <div class="check-item flex gap-2 text-sm mt-4"><input type="checkbox" class="accent-brand" /><span>Developer Token obtained</span></div>
+        <div class="check-item flex gap-2 text-sm"><input type="checkbox" class="accent-brand" /><span>MCC Customer ID written down (10 digits, no dashes)</span></div>
+      </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- PHASE 6: Authenticate -->
+    <!-- ============================================ -->
+    <section id="phase-6" class="py-10 border-b border-border phase-header">
+      <div class="flex items-center gap-3 mb-6">
+        <div class="w-10 h-10 rounded-full bg-brand text-white flex items-center justify-center text-sm font-bold shrink-0">6</div>
+        <h2 class="text-xl font-semibold">Authenticate your machine</h2>
+      </div>
+      <p class="text-sm text-slate-500 mb-4">This step logs your machine into Google so it can access the Ads API on your behalf. It opens a browser window for you to sign in.</p>
+
+      <p class="text-sm text-slate-600 mb-2">Open a terminal and run this command. Replace the path with where you saved the OAuth JSON from Phase 4.</p>
+
+      <details class="mb-3 border border-border rounded-lg" open>
+        <summary class="flex items-center gap-2 p-3 text-sm font-medium">
+          <span class="chev text-slate-400">&#9654;</span> Windows (PowerShell)
+        </summary>
+        <div class="px-3 pb-3">
+          <pre class="bg-code-bg text-code-text rounded-lg p-4 text-sm overflow-x-auto"><button class="copy-btn bg-slate-700 hover:bg-slate-600 text-xs text-slate-300 px-2 py-1 rounded" onclick="copyCode(this)">Copy</button>gcloud auth application-default login `
+  --client-id-file="C:\Users\YOUR_USERNAME\.credentials\google-ads-oauth.json" `
+  --scopes="https://www.googleapis.com/auth/adwords,https://www.googleapis.com/auth/cloud-platform"</pre>
+          <div class="bg-amber-50 border border-amber-200 rounded-lg p-3 text-xs text-amber-800 mt-3">
+            <strong>PowerShell gotcha:</strong> The quotes around the <code>--scopes</code> value are required. Without them, PowerShell treats the comma as a separator and the command fails silently.
+          </div>
+        </div>
+      </details>
+
+      <details class="mb-3 border border-border rounded-lg">
+        <summary class="flex items-center gap-2 p-3 text-sm font-medium">
+          <span class="chev text-slate-400">&#9654;</span> Mac / Linux
+        </summary>
+        <div class="px-3 pb-3">
+          <pre class="bg-code-bg text-code-text rounded-lg p-4 text-sm overflow-x-auto"><button class="copy-btn bg-slate-700 hover:bg-slate-600 text-xs text-slate-300 px-2 py-1 rounded" onclick="copyCode(this)">Copy</button>gcloud auth application-default login \
+  --client-id-file=~/.credentials/google-ads-oauth.json \
+  --scopes=https://www.googleapis.com/auth/adwords,https://www.googleapis.com/auth/cloud-platform</pre>
+        </div>
+      </details>
+
+      <div class="space-y-3 mt-4">
+        <p class="text-sm text-slate-600">A browser window will open. Sign in with the Google account that has access to your Google Ads account. Click "Allow" when prompted.</p>
+
+        <p class="text-sm text-slate-600">When it completes, the terminal will print a path to the saved credentials file. It looks like this:</p>
+
+        <div class="bg-slate-50 border border-border rounded-lg p-3 text-xs text-slate-600">
+          <strong>Default credential locations:</strong><br/>
+          Windows: <code>C:\Users\YOUR_USERNAME\AppData\Roaming\gcloud\application_default_credentials.json</code><br/>
+          Mac/Linux: <code>~/.config/gcloud/application_default_credentials.json</code>
+        </div>
+      </div>
+
+      <div class="bg-red-50 border border-red-200 rounded-lg p-3 text-sm text-red-800 mt-4">
+        <strong>If you see "This app is blocked":</strong> Go back to Phase 3 and make sure you added your email as a Test User on the OAuth consent screen.
+      </div>
+
+      <div class="check-item flex gap-2 text-sm mt-4"><input type="checkbox" class="accent-brand" /><span>Browser auth completed successfully</span></div>
+      <div class="check-item flex gap-2 text-sm"><input type="checkbox" class="accent-brand" /><span>Noted the credentials file path from the terminal output</span></div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- PHASE 7: Install MCP Server -->
+    <!-- ============================================ -->
+    <section id="phase-7" class="py-10 border-b border-border phase-header">
+      <div class="flex items-center gap-3 mb-6">
+        <div class="w-10 h-10 rounded-full bg-brand text-white flex items-center justify-center text-sm font-bold shrink-0">7</div>
+        <h2 class="text-xl font-semibold">Install the Google Ads MCP server</h2>
+      </div>
+      <p class="text-sm text-slate-500 mb-4">The MCP server is the bridge between Claude and Google Ads. It translates Claude's questions into Google Ads API calls.</p>
+
+      <details class="mb-3 border border-border rounded-lg" open>
+        <summary class="flex items-center gap-2 p-3 text-sm font-medium">
+          <span class="chev text-slate-400">&#9654;</span> Windows
+        </summary>
+        <div class="px-3 pb-3">
+          <p class="text-xs text-slate-500 mb-2">Run these two commands one after the other:</p>
+          <pre class="bg-code-bg text-code-text rounded-lg p-4 text-sm overflow-x-auto"><button class="copy-btn bg-slate-700 hover:bg-slate-600 text-xs text-slate-300 px-2 py-1 rounded" onclick="copyCode(this)">Copy</button>python -m venv C:\Users\%USERNAME%\.venvs\google-ads-mcp</pre>
+          <p class="text-xs text-slate-500 my-2">Then:</p>
+          <pre class="bg-code-bg text-code-text rounded-lg p-4 text-sm overflow-x-auto"><button class="copy-btn bg-slate-700 hover:bg-slate-600 text-xs text-slate-300 px-2 py-1 rounded" onclick="copyCode(this)">Copy</button>C:\Users\%USERNAME%\.venvs\google-ads-mcp\Scripts\pip install git+https://github.com/googleads/google-ads-mcp.git</pre>
+          <div class="bg-amber-50 border border-amber-200 rounded-lg p-3 text-xs text-amber-800 mt-3">
+            <strong>Why not pipx?</strong> There's a known bug with <code>pipx run</code> on Windows (pip 25.x). The approach above works reliably.
+          </div>
+        </div>
+      </details>
+
+      <details class="mb-3 border border-border rounded-lg">
+        <summary class="flex items-center gap-2 p-3 text-sm font-medium">
+          <span class="chev text-slate-400">&#9654;</span> Mac / Linux
+        </summary>
+        <div class="px-3 pb-3">
+          <p class="text-xs text-slate-500 mb-2">Install pipx if you don't have it:</p>
+          <pre class="bg-code-bg text-code-text rounded-lg p-4 text-sm overflow-x-auto mb-3"><button class="copy-btn bg-slate-700 hover:bg-slate-600 text-xs text-slate-300 px-2 py-1 rounded" onclick="copyCode(this)">Copy</button>brew install pipx && pipx ensurepath</pre>
+          <p class="text-xs text-slate-500">pipx will automatically download and run the MCP server when Claude needs it (configured in the next step). No separate install needed.</p>
+        </div>
+      </details>
+
+      <div class="check-item flex gap-2 text-sm mt-4"><input type="checkbox" class="accent-brand" /><span>MCP server installed (no errors in terminal)</span></div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- PHASE 8: Configure Claude Code -->
+    <!-- ============================================ -->
+    <section id="phase-8" class="py-10 border-b border-border phase-header">
+      <div class="flex items-center gap-3 mb-6">
+        <div class="w-10 h-10 rounded-full bg-brand text-white flex items-center justify-center text-sm font-bold shrink-0">8</div>
+        <h2 class="text-xl font-semibold">Configure Claude Code</h2>
+      </div>
+      <p class="text-sm text-slate-500 mb-4">Tell Claude Code where to find the MCP server and how to authenticate with Google Ads.</p>
+
+      <p class="text-sm text-slate-600 mb-2">Open or create the file <code class="bg-slate-100 px-1.5 py-0.5 rounded text-xs">~/.claude/.mcp.json</code> and add the Google Ads MCP entry.</p>
+
+      <div class="bg-blue-50 border border-blue-200 rounded-lg p-3 text-sm text-blue-800 mb-4">
+        <strong>If the file already has other entries:</strong> Add the <code>"google-ads-mcp"</code> block inside the existing <code>"mcpServers"</code> object. Don't replace the whole file — just add alongside existing servers.
+      </div>
+
+      <details class="mb-3 border border-border rounded-lg" open>
+        <summary class="flex items-center gap-2 p-3 text-sm font-medium">
+          <span class="chev text-slate-400">&#9654;</span> Windows
+        </summary>
+        <div class="px-3 pb-3">
+          <p class="text-xs text-slate-500 mb-2">File location: <code>C:\Users\YOUR_USERNAME\.claude\.mcp.json</code></p>
+          <pre class="bg-code-bg text-code-text rounded-lg p-4 text-sm overflow-x-auto"><button class="copy-btn bg-slate-700 hover:bg-slate-600 text-xs text-slate-300 px-2 py-1 rounded" onclick="copyCode(this)">Copy</button>"google-ads-mcp": {
+  "command": "C:\\Users\\YOUR_USERNAME\\.venvs\\google-ads-mcp\\Scripts\\python.exe",
+  "args": ["-c", "from ads_mcp.server import run_server; run_server()"],
+  "env": {
+    "GOOGLE_APPLICATION_CREDENTIALS": "C:\\Users\\YOUR_USERNAME\\AppData\\Roaming\\gcloud\\application_default_credentials.json",
+    "GOOGLE_PROJECT_ID": "YOUR_GCP_PROJECT_ID",
+    "GOOGLE_ADS_DEVELOPER_TOKEN": "YOUR_DEV_TOKEN",
+    "GOOGLE_ADS_LOGIN_CUSTOMER_ID": "YOUR_MCC_ID_NO_DASHES"
+  }
+}</pre>
+        </div>
+      </details>
+
+      <details class="mb-3 border border-border rounded-lg">
+        <summary class="flex items-center gap-2 p-3 text-sm font-medium">
+          <span class="chev text-slate-400">&#9654;</span> Mac / Linux
+        </summary>
+        <div class="px-3 pb-3">
+          <p class="text-xs text-slate-500 mb-2">File location: <code>~/.claude/.mcp.json</code></p>
+          <pre class="bg-code-bg text-code-text rounded-lg p-4 text-sm overflow-x-auto"><button class="copy-btn bg-slate-700 hover:bg-slate-600 text-xs text-slate-300 px-2 py-1 rounded" onclick="copyCode(this)">Copy</button>"google-ads-mcp": {
+  "command": "pipx",
+  "args": ["run", "--spec", "git+https://github.com/googleads/google-ads-mcp.git", "google-ads-mcp"],
+  "env": {
+    "GOOGLE_APPLICATION_CREDENTIALS": "/Users/YOUR_USERNAME/.config/gcloud/application_default_credentials.json",
+    "GOOGLE_PROJECT_ID": "YOUR_GCP_PROJECT_ID",
+    "GOOGLE_ADS_DEVELOPER_TOKEN": "YOUR_DEV_TOKEN",
+    "GOOGLE_ADS_LOGIN_CUSTOMER_ID": "YOUR_MCC_ID_NO_DASHES"
+  }
+}</pre>
+        </div>
+      </details>
+
+      <h3 class="text-sm font-semibold mt-6 mb-3">Replace the placeholders</h3>
+      <table class="w-full text-sm border border-border rounded-lg overflow-hidden">
+        <thead class="bg-surface-alt">
+          <tr>
+            <th class="text-left p-3 text-xs text-slate-500 uppercase">Placeholder</th>
+            <th class="text-left p-3 text-xs text-slate-500 uppercase">Where to find it</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="border-t border-border">
+            <td class="p-3 font-mono text-xs">YOUR_USERNAME</td>
+            <td class="p-3 text-xs text-slate-600">Your Windows/Mac username (the one in your home folder path)</td>
+          </tr>
+          <tr class="border-t border-border">
+            <td class="p-3 font-mono text-xs">YOUR_GCP_PROJECT_ID</td>
+            <td class="p-3 text-xs text-slate-600">From Phase 2 — the Project ID on your Google Cloud dashboard</td>
+          </tr>
+          <tr class="border-t border-border">
+            <td class="p-3 font-mono text-xs">YOUR_DEV_TOKEN</td>
+            <td class="p-3 text-xs text-slate-600">From Phase 5 — the Developer Token from Admin &rarr; API Center</td>
+          </tr>
+          <tr class="border-t border-border">
+            <td class="p-3 font-mono text-xs">YOUR_MCC_ID_NO_DASHES</td>
+            <td class="p-3 text-xs text-slate-600">From Phase 5 — your MCC Customer ID, 10 digits, no dashes (e.g., <code>1234567890</code>)</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="bg-amber-50 border border-amber-200 rounded-lg p-3 text-sm text-amber-800 mt-4">
+        <strong>Windows paths need double backslashes</strong> (<code>\\</code>) in JSON files. Single backslashes won't work.
+      </div>
+
+      <p class="text-sm text-slate-600 mt-4"><strong>Restart Claude Code</strong> after saving the file.</p>
+
+      <div class="check-item flex gap-2 text-sm mt-4"><input type="checkbox" class="accent-brand" /><span>All 4 placeholders replaced with real values</span></div>
+      <div class="check-item flex gap-2 text-sm"><input type="checkbox" class="accent-brand" /><span>File saved and Claude Code restarted</span></div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- PHASE 9: Sanity Check -->
+    <!-- ============================================ -->
+    <section id="phase-9" class="py-10 border-b border-border phase-header">
+      <div class="flex items-center gap-3 mb-6">
+        <div class="w-10 h-10 rounded-full bg-brand text-white flex items-center justify-center text-sm font-bold shrink-0">9</div>
+        <h2 class="text-xl font-semibold">Sanity check the connection</h2>
+      </div>
+      <p class="text-sm text-slate-500 mb-4">Before installing skills, confirm the data pipe is working. Open Claude Code and ask:</p>
+
+      <pre class="bg-code-bg text-code-text rounded-lg p-4 text-sm overflow-x-auto mb-4"><button class="copy-btn bg-slate-700 hover:bg-slate-600 text-xs text-slate-300 px-2 py-1 rounded" onclick="copyCode(this)">Copy</button>What are my top 10 campaigns by spend in the last 30 days?</pre>
+
+      <div class="grid sm:grid-cols-2 gap-4 text-sm">
+        <div class="bg-green-50 border border-green-200 rounded-lg p-3">
+          <p class="font-medium text-green-800 mb-1">If it works</p>
+          <p class="text-green-700 text-xs">You'll see campaign names and spend amounts. Move on to Phase 10.</p>
+        </div>
+        <div class="bg-red-50 border border-red-200 rounded-lg p-3">
+          <p class="font-medium text-red-800 mb-1">If it fails</p>
+          <p class="text-red-700 text-xs">Don't continue. Scroll down to <strong>Troubleshooting</strong> and fix the connection before adding skills.</p>
+        </div>
+      </div>
+
+      <div class="check-item flex gap-2 text-sm mt-4"><input type="checkbox" class="accent-brand" /><span>Data query returned real campaign data</span></div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- PHASE 10: Claude Desktop (optional) -->
+    <!-- ============================================ -->
+    <section id="phase-10" class="py-10 border-b border-border phase-header">
+      <div class="flex items-center gap-3 mb-6">
+        <div class="w-10 h-10 rounded-full bg-slate-400 text-white flex items-center justify-center text-sm font-bold shrink-0">10</div>
+        <div>
+          <h2 class="text-xl font-semibold">Configure Claude Desktop</h2>
+          <span class="text-xs text-slate-500">Optional — skip if you only use Claude Code</span>
+        </div>
+      </div>
+      <p class="text-sm text-slate-500 mb-4">If you also want Google Ads access in the Claude Desktop app, add the same config entry there too.</p>
+
+      <div class="space-y-3">
+        <div class="bg-slate-50 border border-border rounded-lg p-3 text-xs text-slate-600">
+          <strong>Config file locations:</strong><br/>
+          Windows: <code>C:\Users\YOUR_USERNAME\AppData\Roaming\Claude\claude_desktop_config.json</code><br/>
+          Mac: <code>~/Library/Application Support/Claude/claude_desktop_config.json</code>
+        </div>
+        <p class="text-sm text-slate-600">Copy the exact same <code>"google-ads-mcp"</code> block from Phase 8 into the <code>"mcpServers"</code> object in this file.</p>
+        <p class="text-sm text-slate-600">Restart Claude Desktop after saving.</p>
+      </div>
+
+      <div class="check-item flex gap-2 text-sm mt-4"><input type="checkbox" class="accent-brand" /><span>Claude Desktop configured (or skipped)</span></div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- PHASE 11: Install Skills -->
+    <!-- ============================================ -->
+    <section id="phase-11" class="py-10 border-b border-border phase-header">
+      <div class="flex items-center gap-3 mb-6">
+        <div class="w-10 h-10 rounded-full bg-brand text-white flex items-center justify-center text-sm font-bold shrink-0">11</div>
+        <h2 class="text-xl font-semibold">Install the Google Ads skills</h2>
+      </div>
+      <p class="text-sm text-slate-500 mb-4">
+        Skills give Claude expert-level Google Ads knowledge — audit frameworks, keyword playbooks, bidding strategies, and more. Without them, Claude can query data but won't know <em>what to do with it</em>.
+      </p>
+
+      <div class="space-y-8">
+        <!-- Step A -->
+        <div class="relative pl-10">
+          <div class="absolute left-0 top-0 w-7 h-7 rounded-full bg-slate-800 text-white flex items-center justify-center text-xs font-bold">a</div>
+          <div class="step-line"></div>
+          <h3 class="font-medium text-sm mb-2">Download the skills</h3>
+          <pre class="bg-code-bg text-code-text rounded-lg p-4 text-sm overflow-x-auto"><button class="copy-btn bg-slate-700 hover:bg-slate-600 text-xs text-slate-300 px-2 py-1 rounded" onclick="copyCode(this)">Copy</button>cd ~/.claude/skills && git clone https://github.com/eliasmalmsandberg/google-ads-skills.git</pre>
+          <p class="text-xs text-slate-500 mt-2">This downloads 21 skill files into a folder inside your Claude skills directory.</p>
+          <div class="check-item flex gap-2 text-sm mt-2"><input type="checkbox" class="accent-brand" /><span>Skills downloaded</span></div>
+        </div>
+
+        <!-- Step B -->
+        <div class="relative pl-10">
+          <div class="absolute left-0 top-0 w-7 h-7 rounded-full bg-slate-800 text-white flex items-center justify-center text-xs font-bold">b</div>
+          <h3 class="font-medium text-sm mb-2">Register each skill with Claude Code</h3>
+          <p class="text-xs text-slate-500 mb-2">Claude Code looks for skills at <code class="bg-slate-100 px-1 rounded">~/.claude/skills/&lt;skill-name&gt;/SKILL.md</code>. The downloaded skills are nested one folder deeper, so we need to create shortcuts that point to them.</p>
+
+          <details class="mb-2 border border-border rounded-lg">
+            <summary class="flex items-center gap-2 p-3 text-sm font-medium">
+              <span class="chev text-slate-400">&#9654;</span> Mac / Linux / Git Bash on Windows
+            </summary>
+            <div class="px-3 pb-3">
+              <pre class="bg-code-bg text-code-text rounded-lg p-4 text-sm overflow-x-auto"><button class="copy-btn bg-slate-700 hover:bg-slate-600 text-xs text-slate-300 px-2 py-1 rounded" onclick="copyCode(this)">Copy</button>cd ~/.claude/skills
+for dir in google-ads-skills/skills/google-ads-*; do
+  ln -s "$dir" "$(basename $dir)"
+done</pre>
+            </div>
+          </details>
+
+          <details class="mb-3 border border-border rounded-lg">
+            <summary class="flex items-center gap-2 p-3 text-sm font-medium">
+              <span class="chev text-slate-400">&#9654;</span> Windows (PowerShell — run as Administrator)
+            </summary>
+            <div class="px-3 pb-3">
+              <pre class="bg-code-bg text-code-text rounded-lg p-4 text-sm overflow-x-auto"><button class="copy-btn bg-slate-700 hover:bg-slate-600 text-xs text-slate-300 px-2 py-1 rounded" onclick="copyCode(this)">Copy</button>cd $env:USERPROFILE\.claude\skills
+Get-ChildItem google-ads-skills\skills\google-ads-* -Directory | ForEach-Object {
+  New-Item -ItemType SymbolicLink -Path $_.Name -Target $_.FullName
+}</pre>
+              <p class="text-xs text-slate-500 mt-2">This must be run as Administrator. Right-click PowerShell &rarr; "Run as administrator".</p>
+            </div>
+          </details>
+
+          <div class="check-item flex gap-2 text-sm"><input type="checkbox" class="accent-brand" /><span>21 skill shortcuts created</span></div>
+        </div>
+      </div>
+
+      <!-- Skills table -->
+      <div class="mt-8">
+        <details class="border border-border rounded-lg">
+          <summary class="flex items-center gap-2 p-4 text-sm font-medium">
+            <span class="chev text-slate-400">&#9654;</span> View all 21 installed skills
+          </summary>
+          <div class="px-4 pb-4">
+            <table class="w-full text-sm">
+              <thead><tr class="text-left text-xs text-slate-500 uppercase"><th class="py-2 pr-4">Skill</th><th class="py-2">What it does</th></tr></thead>
+              <tbody class="text-slate-600">
+                <tr class="border-t border-border"><td class="py-2 pr-4 font-mono text-xs">google-ads-account-audit</td><td class="py-2">Full account health audit &amp; prioritized roadmap</td></tr>
+                <tr class="border-t border-border"><td class="py-2 pr-4 font-mono text-xs">google-ads-ad-copy</td><td class="py-2">RSA headlines, descriptions, CTAs</td></tr>
+                <tr class="border-t border-border"><td class="py-2 pr-4 font-mono text-xs">google-ads-ad-extensions</td><td class="py-2">Extension strategy (sitelinks, callouts, etc.)</td></tr>
+                <tr class="border-t border-border"><td class="py-2 pr-4 font-mono text-xs">google-ads-ad-extension-audit</td><td class="py-2">Extension coverage gap analysis</td></tr>
+                <tr class="border-t border-border"><td class="py-2 pr-4 font-mono text-xs">google-ads-anomaly-detection</td><td class="py-2">Diagnose performance spikes &amp; drops</td></tr>
+                <tr class="border-t border-border"><td class="py-2 pr-4 font-mono text-xs">google-ads-attribution</td><td class="py-2">Attribution models &amp; conversion windows</td></tr>
+                <tr class="border-t border-border"><td class="py-2 pr-4 font-mono text-xs">google-ads-audiences</td><td class="py-2">RLSA, Customer Match, in-market targeting</td></tr>
+                <tr class="border-t border-border"><td class="py-2 pr-4 font-mono text-xs">google-ads-audit-ecommerce</td><td class="py-2">E-commerce ROAS &amp; Shopping audit</td></tr>
+                <tr class="border-t border-border"><td class="py-2 pr-4 font-mono text-xs">google-ads-audit-leadgen</td><td class="py-2">Lead gen CPL &amp; pipeline audit</td></tr>
+                <tr class="border-t border-border"><td class="py-2 pr-4 font-mono text-xs">google-ads-bidding</td><td class="py-2">Smart Bidding strategy selection &amp; tuning</td></tr>
+                <tr class="border-t border-border"><td class="py-2 pr-4 font-mono text-xs">google-ads-budget-management</td><td class="py-2">Budget pacing, allocation, forecasting</td></tr>
+                <tr class="border-t border-border"><td class="py-2 pr-4 font-mono text-xs">google-ads-conversion-tracking</td><td class="py-2">Google Tag, GTM, enhanced conversions</td></tr>
+                <tr class="border-t border-border"><td class="py-2 pr-4 font-mono text-xs">google-ads-experiments</td><td class="py-2">Campaign A/B testing</td></tr>
+                <tr class="border-t border-border"><td class="py-2 pr-4 font-mono text-xs">google-ads-keyword-cannibalization</td><td class="py-2">Cross-campaign keyword conflicts</td></tr>
+                <tr class="border-t border-border"><td class="py-2 pr-4 font-mono text-xs">google-ads-keywords</td><td class="py-2">Keyword research, match types, intent</td></tr>
+                <tr class="border-t border-border"><td class="py-2 pr-4 font-mono text-xs">google-ads-negative-keywords</td><td class="py-2">Waste elimination &amp; negative lists</td></tr>
+                <tr class="border-t border-border"><td class="py-2 pr-4 font-mono text-xs">google-ads-quality-score</td><td class="py-2">QS diagnosis &amp; improvement plan</td></tr>
+                <tr class="border-t border-border"><td class="py-2 pr-4 font-mono text-xs">google-ads-scripts</td><td class="py-2">JavaScript automation for Google Ads</td></tr>
+                <tr class="border-t border-border"><td class="py-2 pr-4 font-mono text-xs">google-ads-search-term-mining</td><td class="py-2">Search term report analysis</td></tr>
+                <tr class="border-t border-border"><td class="py-2 pr-4 font-mono text-xs">google-ads-segmentation</td><td class="py-2">Device, geo, dayparting analysis</td></tr>
+                <tr class="border-t border-border"><td class="py-2 pr-4 font-mono text-xs">google-ads-utm-generator</td><td class="py-2">UTM parameter building &amp; conventions</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- PHASE 12: Final Verification -->
+    <!-- ============================================ -->
+    <section id="phase-12" class="py-10 border-b border-border phase-header">
+      <div class="flex items-center gap-3 mb-6">
+        <div class="w-10 h-10 rounded-full bg-brand text-white flex items-center justify-center text-sm font-bold shrink-0">12</div>
+        <h2 class="text-xl font-semibold">Final verification</h2>
+      </div>
+      <p class="text-sm text-slate-500 mb-6">Now test that the skills are working on top of the data connection. Ask Claude:</p>
+
+      <div class="space-y-4">
+        <div class="border border-border rounded-lg p-4">
+          <div class="flex items-start gap-3">
+            <input type="checkbox" class="mt-1 accent-brand" />
+            <div>
+              <p class="text-sm font-medium">Test — Skills + data together</p>
+              <pre class="bg-code-bg text-code-text rounded-lg p-3 text-sm mt-2 overflow-x-auto"><button class="copy-btn bg-slate-700 hover:bg-slate-600 text-xs text-slate-300 px-2 py-1 rounded" onclick="copyCode(this)">Copy</button>Run a quick account audit — what are the top 3 things to fix first?</pre>
+              <p class="text-xs text-slate-500 mt-2">You should see a <strong>structured audit with prioritized findings</strong> — not just raw numbers. If Claude gives a generic answer without pulling data, the skills aren't loaded (see Troubleshooting).</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="check-item flex gap-2 text-sm mt-4"><input type="checkbox" class="accent-brand" /><span>Got a structured, data-backed audit response</span></div>
+
+      <div class="bg-green-50 border border-green-200 rounded-lg p-4 mt-6 text-sm text-green-800">
+        <strong>Setup complete.</strong> You're ready to use it. See the day-one prompts below to get started.
+      </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- Day-One Prompts -->
+    <!-- ============================================ -->
+    <section class="py-10 border-b border-border">
+      <h2 class="text-xl font-semibold mb-2">Day-one prompts</h2>
+      <p class="text-sm text-slate-500 mb-6">Copy-paste these into Claude to start getting value immediately.</p>
+
+      <div class="space-y-4">
+        <div class="border border-border rounded-lg p-4">
+          <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Full account audit</p>
+          <pre class="bg-code-bg text-code-text rounded-lg p-3 text-sm overflow-x-auto"><button class="copy-btn bg-slate-700 hover:bg-slate-600 text-xs text-slate-300 px-2 py-1 rounded" onclick="copyCode(this)">Copy</button>Run a full account audit. Score each area, identify the highest-impact problems, and give me a prioritized action plan.</pre>
+        </div>
+
+        <div class="border border-border rounded-lg p-4">
+          <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">CPA spike diagnosis</p>
+          <pre class="bg-code-bg text-code-text rounded-lg p-3 text-sm overflow-x-auto"><button class="copy-btn bg-slate-700 hover:bg-slate-600 text-xs text-slate-300 px-2 py-1 rounded" onclick="copyCode(this)">Copy</button>My CPA went up 40% this week — diagnose what changed vs the previous week. Break it down by campaign, search terms, device, and day of week.</pre>
+        </div>
+
+        <div class="border border-border rounded-lg p-4">
+          <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Wasted spend cleanup</p>
+          <pre class="bg-code-bg text-code-text rounded-lg p-3 text-sm overflow-x-auto"><button class="copy-btn bg-slate-700 hover:bg-slate-600 text-xs text-slate-300 px-2 py-1 rounded" onclick="copyCode(this)">Copy</button>Which search terms spent money but have zero conversions in the last 30 days? Group by campaign and suggest negatives.</pre>
+        </div>
+
+        <div class="border border-border rounded-lg p-4">
+          <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Quality Score focus</p>
+          <pre class="bg-code-bg text-code-text rounded-lg p-3 text-sm overflow-x-auto"><button class="copy-btn bg-slate-700 hover:bg-slate-600 text-xs text-slate-300 px-2 py-1 rounded" onclick="copyCode(this)">Copy</button>What's my Quality Score distribution and which keywords should I prioritize first? Explain why.</pre>
+        </div>
+
+        <div class="border border-border rounded-lg p-4">
+          <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Budget / bidding triage</p>
+          <pre class="bg-code-bg text-code-text rounded-lg p-3 text-sm overflow-x-auto"><button class="copy-btn bg-slate-700 hover:bg-slate-600 text-xs text-slate-300 px-2 py-1 rounded" onclick="copyCode(this)">Copy</button>I have a CPA target of $50 — which campaigns are above target in the last 14 days and what are the likely drivers? Give fixes in priority order.</pre>
+        </div>
+
+        <div class="border border-border rounded-lg p-4">
+          <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Keyword cannibalization check</p>
+          <pre class="bg-code-bg text-code-text rounded-lg p-3 text-sm overflow-x-auto"><button class="copy-btn bg-slate-700 hover:bg-slate-600 text-xs text-slate-300 px-2 py-1 rounded" onclick="copyCode(this)">Copy</button>Are any of my campaigns competing against each other in the same auctions? Identify overlapping keywords and recommend how to fix it.</pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- Troubleshooting -->
+    <!-- ============================================ -->
+    <section class="py-10 border-b border-border">
+      <h2 class="text-xl font-semibold mb-6">Troubleshooting</h2>
+
+      <div class="space-y-3">
+        <details class="border border-border rounded-lg">
+          <summary class="flex items-center gap-2 p-4 text-sm font-medium">
+            <span class="chev text-slate-400">&#9654;</span>
+            <span class="text-red-600">"This app is blocked"</span> during authentication
+          </summary>
+          <div class="px-4 pb-4 text-sm text-slate-600">
+            Your Google account isn't listed as a test user. Go back to <strong>Phase 3</strong>: GCP &rarr; APIs &amp; Services &rarr; OAuth consent screen &rarr; Test users &rarr; add your email. If the GCP owner and Google Ads owner are different emails, add both.
+          </div>
+        </details>
+
+        <details class="border border-border rounded-lg">
+          <summary class="flex items-center gap-2 p-4 text-sm font-medium">
+            <span class="chev text-slate-400">&#9654;</span>
+            <span class="text-red-600">"Permission denied"</span> or empty results when querying
+          </summary>
+          <div class="px-4 pb-4 text-sm text-slate-600">
+            Check that <code>GOOGLE_ADS_LOGIN_CUSTOMER_ID</code> in your config is the MCC Customer ID (10 digits, no dashes). This field is required when accessing accounts through a Manager account.
+          </div>
+        </details>
+
+        <details class="border border-border rounded-lg">
+          <summary class="flex items-center gap-2 p-4 text-sm font-medium">
+            <span class="chev text-slate-400">&#9654;</span>
+            <span class="text-red-600">"No module named pip.__main__"</span> on Windows
+          </summary>
+          <div class="px-4 pb-4 text-sm text-slate-600">
+            This is a known <code>pipx</code> bug with pip 25.x on Windows. Don't use pipx. Use the venv approach from Phase 7 (Windows tab) instead.
+          </div>
+        </details>
+
+        <details class="border border-border rounded-lg">
+          <summary class="flex items-center gap-2 p-4 text-sm font-medium">
+            <span class="chev text-slate-400">&#9654;</span>
+            MCP server not showing up in Claude
+          </summary>
+          <div class="px-4 pb-4 text-sm text-slate-600">
+            <ol class="list-decimal list-inside space-y-1">
+              <li>Did you restart Claude Code / Claude Desktop after editing the config file?</li>
+              <li>Check the JSON file for syntax errors — a missing comma or unclosed bracket will break the whole file</li>
+              <li>On Windows: make sure all file paths use double backslashes (<code>\\</code>), not single</li>
+              <li>Paste the JSON into a validator like <strong>jsonlint.com</strong> to check</li>
+            </ol>
+          </div>
+        </details>
+
+        <details class="border border-border rounded-lg">
+          <summary class="flex items-center gap-2 p-4 text-sm font-medium">
+            <span class="chev text-slate-400">&#9654;</span>
+            Developer token still pending after 48 hours
+          </summary>
+          <div class="px-4 pb-4 text-sm text-slate-600">
+            Go back to <strong>ads.google.com &rarr; Admin &rarr; API Center</strong> in your MCC account and check the status. Make sure you applied from the Manager (MCC) account, not a regular account. If still stuck, contact Google Ads support.
+          </div>
+        </details>
+
+        <details class="border border-border rounded-lg">
+          <summary class="flex items-center gap-2 p-4 text-sm font-medium">
+            <span class="chev text-slate-400">&#9654;</span>
+            gcloud auth command fails with scopes error (PowerShell)
+          </summary>
+          <div class="px-4 pb-4 text-sm text-slate-600">
+            PowerShell treats the comma in <code>--scopes</code> as an array separator, which breaks the command. Make sure the entire value is wrapped in double quotes: <code>--scopes="scope1,scope2"</code>. See Phase 6 for the exact command.
+          </div>
+        </details>
+
+        <details class="border border-border rounded-lg">
+          <summary class="flex items-center gap-2 p-4 text-sm font-medium">
+            <span class="chev text-slate-400">&#9654;</span>
+            Skills not loading (Claude gives generic answers, not structured audits)
+          </summary>
+          <div class="px-4 pb-4 text-sm text-slate-600">
+            <ol class="list-decimal list-inside space-y-1">
+              <li>Check that the skill shortcuts were created: <code>ls ~/.claude/skills/google-ads-*</code> should show 21 entries</li>
+              <li>Each should contain a <code>SKILL.md</code> file. Check one: <code>ls ~/.claude/skills/google-ads-account-audit/</code></li>
+              <li>If missing, re-run Phase 10 step b</li>
+            </ol>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- Limitations -->
+    <!-- ============================================ -->
+    <section class="py-10">
+      <h2 class="text-xl font-semibold mb-6">Good to know</h2>
+      <div class="grid sm:grid-cols-2 gap-4 text-sm">
+        <div class="bg-surface rounded-lg border border-border p-4">
+          <h3 class="font-medium text-slate-800 mb-1">Read-only</h3>
+          <p class="text-slate-500">Claude can analyze data but cannot create, pause, or change campaigns. Recommendations only.</p>
+        </div>
+        <div class="bg-surface rounded-lg border border-border p-4">
+          <h3 class="font-medium text-slate-800 mb-1">On-demand only</h3>
+          <p class="text-slate-500">Claude responds when you ask. It doesn't monitor the account or send alerts on its own.</p>
+        </div>
+        <div class="bg-surface rounded-lg border border-border p-4">
+          <h3 class="font-medium text-slate-800 mb-1">Performance Max is limited</h3>
+          <p class="text-slate-500">PMax campaigns have restricted data in the API — search terms, asset breakdowns, and channel splits are not fully available.</p>
+        </div>
+        <div class="bg-surface rounded-lg border border-border p-4">
+          <h3 class="font-medium text-slate-800 mb-1">~3 hour data lag</h3>
+          <p class="text-slate-500">Google Ads data has an inherent delay. Today's data may be incomplete until late afternoon.</p>
+        </div>
+        <div class="bg-surface rounded-lg border border-border p-4">
+          <h3 class="font-medium text-slate-800 mb-1">API rate limits</h3>
+          <p class="text-slate-500">Very large accounts with many queries in one session may hit Google's API limits.</p>
+        </div>
+        <div class="bg-surface rounded-lg border border-border p-4">
+          <h3 class="font-medium text-slate-800 mb-1">Conversion numbers may differ slightly</h3>
+          <p class="text-slate-500">API conversion data can differ from the Google Ads UI due to attribution model differences. This is a Google-side thing.</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-code-bg text-slate-400 text-sm mt-10">
+    <div class="max-w-3xl mx-auto px-6 py-8 space-y-1">
+      <p>Skills repo: <a href="https://github.com/eliasmalmsandberg/google-ads-skills" class="text-blue-400 hover:underline">eliasmalm/google-ads-skills</a></p>
+      <p>Official MCP: <a href="https://github.com/googleads/google-ads-mcp" class="text-blue-400 hover:underline">googleads/google-ads-mcp</a></p>
+    </div>
+  </footer>
+
+  <script>
+    function setLang(lang) {
+      const en = document.getElementById('checklist-en');
+      const he = document.getElementById('checklist-he');
+      const btnEn = document.getElementById('lang-en');
+      const btnHe = document.getElementById('lang-he');
+
+      if (lang === 'he') {
+        en.classList.add('hidden');
+        he.classList.remove('hidden');
+        btnHe.classList.add('bg-white', 'shadow', 'text-slate-800');
+        btnHe.classList.remove('text-slate-500', 'hover:text-slate-700');
+        btnEn.classList.remove('bg-white', 'shadow', 'text-slate-800');
+        btnEn.classList.add('text-slate-500', 'hover:text-slate-700');
+      } else {
+        he.classList.add('hidden');
+        en.classList.remove('hidden');
+        btnEn.classList.add('bg-white', 'shadow', 'text-slate-800');
+        btnEn.classList.remove('text-slate-500', 'hover:text-slate-700');
+        btnHe.classList.remove('bg-white', 'shadow', 'text-slate-800');
+        btnHe.classList.add('text-slate-500', 'hover:text-slate-700');
+      }
+    }
+
+    function copyChecklist() {
+      const en = document.getElementById('checklist-en');
+      const he = document.getElementById('checklist-he');
+      const text = en.classList.contains('hidden') ? he.textContent : en.textContent;
+      const btn = document.getElementById('checklist-copy-btn');
+      navigator.clipboard.writeText(text.trim()).then(() => {
+        btn.textContent = 'Copied!';
+        setTimeout(() => btn.textContent = 'Copy', 1500);
+      });
+    }
+
+    function copyCode(btn) {
+      const pre = btn.closest('pre');
+      const code = pre.textContent.replace('Copy', '').replace('Copied!', '').trim();
+      navigator.clipboard.writeText(code).then(() => {
+        btn.textContent = 'Copied!';
+        setTimeout(() => btn.textContent = 'Copy', 1500);
+      });
+    }
+  </script>
+</body>
+</html>
