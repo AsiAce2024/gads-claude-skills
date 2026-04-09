@@ -119,6 +119,30 @@ Where is money going that has no path to return?
 - Flag: spend > 2× target CPA per keyword with 0 conversions
 - Separate: high-spend 0-conversion vs. low-spend 0-conversion (different urgency)
 
+> ⚠️ **MANDATORY: filter out negatives and paused criteria before analyzing keyword counts or attributing cost.**
+>
+> The `ad_group_criterion` resource returns **both targeting keywords AND negative keywords** in the same query. A campaign with "6 keywords" in the UI will return 150+ rows here if it has many negatives. Likewise, `keyword_view` returns historical cost for keywords that may now be PAUSED or REMOVED — attributing that cost as "currently active spend" is wrong and will produce false findings.
+>
+> **Always include in keyword queries:**
+> - `ad_group_criterion.negative` (and filter `= false` for targeting analysis)
+> - `ad_group_criterion.status` (filter `= 'ENABLED'` to count active keywords)
+> - `ad_group.status` and `campaign.status` (filter `= 'ENABLED'` for live structure)
+>
+> **Example correct query for "active targeting keywords in a campaign":**
+> ```
+> SELECT ad_group_criterion.keyword.text, ad_group_criterion.keyword.match_type
+> FROM ad_group_criterion
+> WHERE campaign.id = X
+>   AND ad_group_criterion.type = 'KEYWORD'
+>   AND ad_group_criterion.negative = false
+>   AND ad_group_criterion.status = 'ENABLED'
+>   AND ad_group.status = 'ENABLED'
+> ```
+>
+> **For cost analysis from `keyword_view`**, also include `ad_group_criterion.status` and call out in the report when cost came from a now-paused keyword (it means the user already acted on it — don't claim credit for finding it).
+>
+> **Why this matters**: confusing negatives with targeting keywords produces dramatic-sounding but false findings ("150 keywords getting zero impressions!" when really there are 6 targeting + 144 negatives doing exactly their job). Worse, it destroys trust — the user looks at the UI, sees 6 keywords, and now doubts everything else in the audit.
+
 **3c — Wasted impressions**
 - Campaigns running on irrelevant geographies
 - Ads running outside business hours when calls are the conversion (no one to answer)
