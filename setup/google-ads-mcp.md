@@ -170,6 +170,36 @@ If your access to the ad account is through a manager account, add the manager c
 
 ---
 
+## Step 5b — CRITICAL: Apply the stdio-hang patch (Windows + any stdio MCP host)
+
+> **You must do this or every tool call will hang forever.**
+
+The public release of `google-ads-mcp` (0.0.1) calls `google.auth.default()` inside every tool invocation. In an MCP stdio subprocess context, this call **deadlocks indefinitely** — no error, no timeout, the Python process sits at 0% CPU forever. Symptoms: the server starts, `tools/list` returns instantly, but the moment you ask Claude/Cursor/Gemini a real question, nothing happens.
+
+The fix is a small patch to `ads_mcp/utils.py` that bypasses `google.auth.default()` and reads the ADC JSON directly. The patch script is idempotent and creates a backup.
+
+```bash
+# Adjust paths if your venv is elsewhere.
+C:\Users\%USERNAME%\.venvs\google-ads-mcp\Scripts\python.exe \
+  C:\Users\%USERNAME%\.claude\scripts\google-ads-mcp\apply-stdio-hang-patch.py \
+  C:\Users\%USERNAME%\.venvs\google-ads-mcp
+```
+
+Then verify:
+
+```bash
+set GOOGLE_ADS_DEVELOPER_TOKEN=YOUR_DEV_TOKEN
+set GOOGLE_ADS_LOGIN_CUSTOMER_ID=YOUR_MCC_ID_NO_DASHES
+set PYTHONUTF8=1
+python C:\Users\%USERNAME%\.claude\scripts\google-ads-mcp\verify-mcp-health.py
+```
+
+Expected: `HEALTHY` with cold call <30s and warm call <5s.
+
+> **Re-run the patch after every reinstall or upgrade.** `pip install --upgrade google-ads-mcp` will overwrite the patched file.
+
+---
+
 ## Step 6 — Verify the connection
 
 In your agent, type `/mcp` — you should see `google-ads-mcp` listed.
@@ -190,6 +220,7 @@ How many active campaigns do I have for customer id 1234567890?
 
 | Issue | Solution |
 |-------|----------|
+| **Tool calls hang forever** | The stdio-hang patch (Step 5b) was not applied — or `pip` overwrote it on a recent reinstall. Re-run the patch script. |
 | Permission denied | Make sure you're using your MCC customer ID in `GOOGLE_ADS_LOGIN_CUSTOMER_ID` |
 | Empty results | Check that your date range is correct and the account has spend |
 | Token not approved | Developer token requests can take up to 48 hours |
