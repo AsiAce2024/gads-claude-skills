@@ -635,8 +635,10 @@ Mac:     ~/.credentials/google-ads-oauth.json</pre>
         <p class="text-xs text-red-700 mb-3">
           The public release of <code>google-ads-mcp</code> has a bug that causes <strong>every tool call to hang forever</strong> when launched as an MCP stdio subprocess on Windows. The root cause is <code>google.auth.default()</code> deadlocking inside the stdio context. Without this patch, your install will appear to "work" but every query will freeze indefinitely.
         </p>
-        <p class="text-xs text-red-700 mb-2">Run this once after installing the venv:</p>
-        <pre class="bg-code-bg text-code-text rounded-lg p-3 text-xs overflow-x-auto"><button class="copy-btn bg-slate-700 hover:bg-slate-600 text-xs text-slate-300 px-2 py-1 rounded" onclick="copyCode(this)">Copy</button>C:\Users\%USERNAME%\.venvs\google-ads-mcp\Scripts\python.exe C:\Users\%USERNAME%\.claude\scripts\google-ads-mcp\apply-stdio-hang-patch.py C:\Users\%USERNAME%\.venvs\google-ads-mcp</pre>
+        <p class="text-xs text-red-700 mb-2">Download the installer tools first (one-time setup):</p>
+        <pre class="bg-code-bg text-code-text rounded-lg p-3 text-xs overflow-x-auto"><button class="copy-btn bg-slate-700 hover:bg-slate-600 text-xs text-slate-300 px-2 py-1 rounded" onclick="copyCode(this)">git clone https://github.com/AsiAce2024/gads-claude-installer.git C:\tools\gads-installer</pre>
+        <p class="text-xs text-red-700 my-2">Then apply the patch:</p>
+        <pre class="bg-code-bg text-code-text rounded-lg p-3 text-xs overflow-x-auto"><button class="copy-btn bg-slate-700 hover:bg-slate-600 text-xs text-slate-300 px-2 py-1 rounded" onclick="copyCode(this)">C:\Users\%USERNAME%\.venvs\google-ads-mcp\Scripts\python.exe C:\tools\gads-installer\apply-stdio-hang-patch.py C:\Users\%USERNAME%\.venvs\google-ads-mcp</pre>
         <p class="text-xs text-red-700 mt-3">
           The script is idempotent (safe to run twice), creates a <code>.py.orig</code> backup, and exits cleanly if already patched. Expected output: <code>Patched: _create_credentials + _get_googleads_client (with cache)</code>.
         </p>
@@ -650,7 +652,7 @@ Mac:     ~/.credentials/google-ads-oauth.json</pre>
       <pre class="bg-code-bg text-code-text rounded-lg p-3 text-xs overflow-x-auto"><button class="copy-btn bg-slate-700 hover:bg-slate-600 text-xs text-slate-300 px-2 py-1 rounded" onclick="copyCode(this)">Copy</button>set GOOGLE_ADS_DEVELOPER_TOKEN=YOUR_DEV_TOKEN
 set GOOGLE_ADS_LOGIN_CUSTOMER_ID=YOUR_MCC_ID_NO_DASHES
 set PYTHONUTF8=1
-python C:\Users\%USERNAME%\.claude\scripts\google-ads-mcp\verify-mcp-health.py</pre>
+python C:\tools\gads-installer\verify-mcp-health.py</pre>
       <p class="text-xs text-slate-600 mt-2">Expected: <code class="bg-green-100 text-green-800 px-1 rounded">HEALTHY</code> with cold call &lt;30s and warm call &lt;5s. If you see a hang or <code>FAIL</code>, the patch did not apply — re-run it and try again.</p>
 
       <div class="check-item flex gap-2 text-sm mt-4"><input type="checkbox" class="accent-brand" /><span>stdio-hang patch applied (saw "Patched: ..." message)</span></div>
@@ -1003,7 +1005,7 @@ Get-ChildItem google-ads-skills\skills\google-ads-* -Directory | ForEach-Object 
             <p class="mb-2">Symptoms: the MCP server appears to load fine, <code>tools/list</code> returns instantly, but the moment you ask Claude a real question (e.g., "list my campaigns"), nothing happens. The query just hangs. No error, no timeout, no progress.</p>
             <p class="mb-2"><strong>Cause:</strong> <code>google.auth.default()</code> deadlocks inside the MCP stdio subprocess. This is a bug in the public release of <code>google-ads-mcp</code> on Windows.</p>
             <p class="mb-2"><strong>Fix:</strong> apply the stdio-hang patch from Phase 7. Re-read the red callout in Phase 7 and run:</p>
-            <pre class="bg-code-bg text-code-text rounded p-2 text-xs overflow-x-auto">C:\Users\%USERNAME%\.venvs\google-ads-mcp\Scripts\python.exe C:\Users\%USERNAME%\.claude\scripts\google-ads-mcp\apply-stdio-hang-patch.py C:\Users\%USERNAME%\.venvs\google-ads-mcp</pre>
+            <pre class="bg-code-bg text-code-text rounded p-2 text-xs overflow-x-auto">C:\Users\%USERNAME%\.venvs\google-ads-mcp\Scripts\python.exe C:\tools\gads-installer\apply-stdio-hang-patch.py C:\Users\%USERNAME%\.venvs\google-ads-mcp</pre>
             <p class="mt-2">Then run <code>verify-mcp-health.py</code> to confirm. <strong>Restart Claude Code</strong> after patching — the old MCP server process is cached in memory and needs to be killed.</p>
             <p class="mt-2 text-xs"><strong>Re-run after every reinstall</strong> of <code>google-ads-mcp</code> — pip overwrites the patched file.</p>
           </div>
