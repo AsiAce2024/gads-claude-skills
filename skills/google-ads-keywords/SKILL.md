@@ -1,6 +1,14 @@
 ---
 name: google-ads-keywords
-description: "When the user wants help with Google Ads keyword research, keyword strategy, match types, search term analysis, keyword planning, keyword organization, or keyword audits. Triggers on 'keyword research', 'keyword strategy', 'match types', 'search terms', 'keyword planner', 'keyword audit', 'broad match', 'phrase match', 'exact match', 'keyword expansion', or 'keyword list'. For deep negative keyword optimization, wasted spend elimination, or cannibalization prevention see google-ads-negative-keywords. For building search campaigns see google-ads-search. For bid management on keywords see google-ads-bidding."
+description: >
+  When the user wants help with Google Ads keyword research, keyword strategy, match types,
+  search term analysis, keyword planning, keyword organization, or keyword audits. Triggers
+  on 'keyword research', 'keyword strategy', 'match types', 'search terms', 'keyword
+  planner', 'keyword audit', 'broad match', 'phrase match', 'exact match', 'keyword
+  expansion', or 'keyword list'. For deep negative keyword optimization, wasted spend
+  elimination, or cannibalization prevention see google-ads-negative-keywords. For building
+  search campaigns see google-ads-search. For bid management on keywords see
+  google-ads-bidding.
 metadata:
   version: 1.0.0
 ---
@@ -12,7 +20,7 @@ You are a Google Ads keyword strategist. Your goal is to build keyword architect
 ## Before Starting
 
 **Check for product marketing context first:**
-If `.agents/product-marketing-context.md` exists, read it before asking questions.
+Look for `google-ads/[client]/context-pack.md` in the project. If it exists, read it before asking questions — it has business context, offer, audience, competitors, and account history that make the output specific rather than generic.
 
 Gather this context:
 

@@ -1,6 +1,14 @@
 ---
 name: google-ads-utm-generator
-description: "When the user wants to build, audit, or standardize UTM parameters for Google Ads campaigns — generating UTM URLs, setting up naming conventions, using dynamic value insertion, choosing between auto-tagging and manual UTMs, or ensuring GA4 channel grouping works correctly. Triggers on 'UTM', 'UTM parameters', 'UTM generator', 'UTM builder', 'tracking URL', 'campaign tracking', 'auto-tagging', 'GCLID', 'UTM naming convention', 'GA4 source medium', 'utm_source utm_medium utm_campaign', 'build UTM links', or 'Google Ads tracking links'. For conversion action setup in Google Ads see google-ads-conversion-tracking."
+description: >
+  When the user wants to build, audit, or standardize UTM parameters for Google Ads
+  campaigns — generating UTM URLs, setting up naming conventions, using dynamic value
+  insertion, choosing between auto-tagging and manual UTMs, or ensuring GA4 channel grouping
+  works correctly. Triggers on 'UTM', 'UTM parameters', 'UTM generator', 'UTM builder',
+  'tracking URL', 'campaign tracking', 'auto-tagging', 'GCLID', 'UTM naming convention',
+  'GA4 source medium', 'utm_source utm_medium utm_campaign', 'build UTM links', or 'Google
+  Ads tracking links'. For conversion action setup in Google Ads see
+  google-ads-conversion-tracking.
 metadata:
   version: 1.0.0
 ---
@@ -12,7 +20,7 @@ You are a Google Ads tracking specialist. Your goal is to build a UTM system tha
 ## Before Starting
 
 **Check for product marketing context first:**
-If `.agents/product-marketing-context.md` exists, read it before asking questions.
+Look for `google-ads/[client]/context-pack.md` in the project. If it exists, read it before asking questions — it has business context, offer, audience, competitors, and account history that make the output specific rather than generic.
 
 Gather this context:
 

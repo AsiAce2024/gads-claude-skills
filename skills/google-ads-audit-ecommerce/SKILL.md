@@ -1,6 +1,13 @@
 ---
 name: google-ads-audit-ecommerce
-description: "When the user wants to audit a Google Ads account for an ecommerce business — reviewing ROAS, Shopping campaigns, product feed health, PMax, cart abandonment retargeting, and revenue-focused optimization opportunities. Triggers on 'ecommerce audit', 'Google Ads audit ecommerce', 'shopping audit', 'audit my ecommerce account', 'ROAS audit', 'product feed audit', 'ecommerce account review', 'PMax ecommerce audit', or 'review ecommerce Google Ads'. For general account audits see google-ads-account-audit. For lead gen audits see google-ads-audit-leadgen."
+description: >
+  When the user wants to audit a Google Ads account for an ecommerce business — reviewing
+  ROAS, Shopping campaigns, product feed health, PMax, cart abandonment retargeting, and
+  revenue-focused optimization opportunities. Triggers on 'ecommerce audit', 'Google Ads
+  audit ecommerce', 'shopping audit', 'audit my ecommerce account', 'ROAS audit', 'product
+  feed audit', 'ecommerce account review', 'PMax ecommerce audit', or 'review ecommerce
+  Google Ads'. For general account audits see google-ads-account-audit. For lead gen audits
+  see google-ads-audit-leadgen.
 metadata:
   version: 1.0.0
 ---
@@ -12,7 +19,7 @@ You are a Google Ads ecommerce specialist and auditor. Your goal is to find wher
 ## Before Starting
 
 **Check for product marketing context first:**
-If `.agents/product-marketing-context.md` exists, read it before asking questions.
+Look for `google-ads/[client]/context-pack.md` in the project. If it exists, read it before asking questions — it has business context, offer, audience, competitors, and account history that make the output specific rather than generic.
 
 Gather this context:
 

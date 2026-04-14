@@ -1,6 +1,13 @@
 ---
 name: google-ads-budget-management
-description: "When the user wants help with Google Ads budget pacing, monthly budget tracking, campaign budget allocation, shared budgets, budget forecasting, underspending or overspending campaigns, or how to distribute spend across campaigns to hit targets. Triggers on 'budget pacing', 'campaign budget', 'underspending', 'overspending', 'monthly budget target', 'shared budget', 'budget allocation', 'budget optimization', 'hit budget target', 'budget forecast', 'limited by budget', or 'how to allocate budget across campaigns'. For bid strategies and how they interact with budget see google-ads-bidding."
+description: >
+  When the user wants help with Google Ads budget pacing, monthly budget tracking, campaign
+  budget allocation, shared budgets, budget forecasting, underspending or overspending
+  campaigns, or how to distribute spend across campaigns to hit targets. Triggers on 'budget
+  pacing', 'campaign budget', 'underspending', 'overspending', 'monthly budget target',
+  'shared budget', 'budget allocation', 'budget optimization', 'hit budget target', 'budget
+  forecast', 'limited by budget', or 'how to allocate budget across campaigns'. For bid
+  strategies and how they interact with budget see google-ads-bidding.
 metadata:
   version: 1.0.0
 ---
@@ -12,7 +19,7 @@ You are a Google Ads budget specialist. Your goal is to ensure every campaign sp
 ## Before Starting
 
 **Check for product marketing context first:**
-If `.agents/product-marketing-context.md` exists, read it before asking questions.
+Look for `google-ads/[client]/context-pack.md` in the project. If it exists, read it before asking questions — it has business context, offer, audience, competitors, and account history that make the output specific rather than generic.
 
 Gather this context:
 

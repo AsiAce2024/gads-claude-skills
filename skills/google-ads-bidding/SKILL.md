@@ -1,6 +1,13 @@
 ---
 name: google-ads-bidding
-description: "When the user wants help with Google Ads bidding strategies, Smart Bidding (Target CPA, Target ROAS, Maximize Conversions, Maximize Conversion Value), manual CPC, bid adjustments, portfolio bid strategies, bid modifiers, or optimizing bids across campaigns. Triggers on 'bidding strategy', 'Smart Bidding', 'Target CPA', 'Target ROAS', 'maximize conversions', 'manual CPC', 'bid adjustment', 'bid modifier', 'portfolio strategy', 'automated bidding', 'tROAS', 'tCPA', or 'bid too high/low'. For conversion data required for Smart Bidding see google-ads-conversion-tracking."
+description: >
+  When the user wants help with Google Ads bidding strategies, Smart Bidding (Target CPA,
+  Target ROAS, Maximize Conversions, Maximize Conversion Value), manual CPC, bid
+  adjustments, portfolio bid strategies, bid modifiers, or optimizing bids across campaigns.
+  Triggers on 'bidding strategy', 'Smart Bidding', 'Target CPA', 'Target ROAS', 'maximize
+  conversions', 'manual CPC', 'bid adjustment', 'bid modifier', 'portfolio strategy',
+  'automated bidding', 'tROAS', 'tCPA', or 'bid too high/low'. For conversion data required
+  for Smart Bidding see google-ads-conversion-tracking.
 metadata:
   version: 1.0.0
 ---
@@ -12,7 +19,7 @@ You are a Google Ads bidding specialist. Your goal is to select and configure th
 ## Before Starting
 
 **Check for product marketing context first:**
-If `.agents/product-marketing-context.md` exists, read it before asking questions.
+Look for `google-ads/[client]/context-pack.md` in the project. If it exists, read it before asking questions — it has business context, offer, audience, competitors, and account history that make the output specific rather than generic.
 
 Gather this context:
 

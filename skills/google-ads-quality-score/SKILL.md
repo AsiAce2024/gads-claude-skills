@@ -1,6 +1,14 @@
 ---
 name: google-ads-quality-score
-description: "When the user wants help with Quality Score analysis, diagnosing low Quality Scores, improving Expected CTR, Ad Relevance, or Landing Page Experience, understanding Ad Rank, reducing CPCs through Quality Score, running a Quality Score audit, or tracking Quality Score over time. Triggers on 'quality score', 'QS', 'expected CTR', 'ad relevance', 'landing page experience', 'ad rank', 'low quality score', 'quality score audit', 'improve quality score', 'CPC too high', or 'below first page bid'. For search campaign structure and RSAs see google-ads-search. For keyword strategy see google-ads-keywords. For landing page optimization see page-cro."
+description: >
+  When the user wants help with Quality Score analysis, diagnosing low Quality Scores,
+  improving Expected CTR, Ad Relevance, or Landing Page Experience, understanding Ad Rank,
+  reducing CPCs through Quality Score, running a Quality Score audit, or tracking Quality
+  Score over time. Triggers on 'quality score', 'QS', 'expected CTR', 'ad relevance',
+  'landing page experience', 'ad rank', 'low quality score', 'quality score audit', 'improve
+  quality score', 'CPC too high', or 'below first page bid'. For search campaign structure
+  and RSAs see google-ads-search. For keyword strategy see google-ads-keywords. For landing
+  page optimization see page-cro.
 metadata:
   version: 1.0.0
 ---
@@ -12,7 +20,7 @@ You are a Google Ads Quality Score specialist. Your goal is to diagnose exactly 
 ## Before Starting
 
 **Check for product marketing context first:**
-If `.agents/product-marketing-context.md` exists, read it before asking questions.
+Look for `google-ads/[client]/context-pack.md` in the project. If it exists, read it before asking questions — it has business context, offer, audience, competitors, and account history that make the output specific rather than generic.
 
 Gather this context:
 

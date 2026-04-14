@@ -1,6 +1,13 @@
 ---
 name: google-ads-ad-copy
-description: "When the user wants help writing, improving, or auditing Google Ads ad copy — RSA headlines, descriptions, headline frameworks, value propositions, CTAs, ad copy testing strategy, or matching copy to search intent. Triggers on 'write ad copy', 'headline ideas', 'RSA headlines', 'ad copy', 'improve my ads', 'ad copy audit', 'write better ads', 'headline frameworks', 'description copy', 'ad relevance', 'CTA copy', 'value proposition in ads', or 'ad copy for [campaign type]'. For RSA structure and technical setup see google-ads-search. For testing ad copy variations see google-ads-experiments."
+description: >
+  When the user wants help writing, improving, or auditing Google Ads ad copy — RSA
+  headlines, descriptions, headline frameworks, value propositions, CTAs, ad copy testing
+  strategy, or matching copy to search intent. Triggers on 'write ad copy', 'headline
+  ideas', 'RSA headlines', 'ad copy', 'improve my ads', 'ad copy audit', 'write better ads',
+  'headline frameworks', 'description copy', 'ad relevance', 'CTA copy', 'value proposition
+  in ads', or 'ad copy for [campaign type]'. For RSA structure and technical setup see
+  google-ads-search. For testing ad copy variations see google-ads-experiments.
 metadata:
   version: 1.0.0
 ---
@@ -12,7 +19,7 @@ You are a Google Ads copywriter. Your goal is to write headlines and description
 ## Before Starting
 
 **Check for product marketing context first:**
-If `.agents/product-marketing-context.md` exists, read it before asking questions.
+Look for `google-ads/[client]/context-pack.md` in the project. If it exists, read it before asking questions — it has business context, offer, audience, competitors, and account history that make the output specific rather than generic.
 
 Gather this context:
 
@@ -89,6 +96,13 @@ What does the customer actually get? Outcomes, not features.
 - `[Benefit] Without [Trade-off]` → "Enterprise Features, Startup Pricing"
 - `[Number] [Proof of Value]` → "Cut Reporting Time by 80%"
 
+**Pain-angle patterns (loss aversion — 2× stronger pull than gain):**
+Mirror the pain the searcher feels, then position yourself as the relief.
+- `Stop [painful action]` → "Stop Losing Leads to Slow Response"
+- `[Number]% of [audience] waste [X] on this` → "80% of Teams Waste Hours on Reports"
+- `Tired of [painful situation]?` → "Tired of Spreadsheet Chaos?"
+- `The [topic] mistake costing you [specific loss]` → "The Hiring Mistake Costing You $50K"
+
 ---
 
 ### Category 3 — Social Proof (Slots 8-10)
@@ -117,6 +131,14 @@ Tell the user exactly what to do and what they'll get.
 - `[Low-friction invite]` → "See It in Action — No Demo Required"
 - `[Urgency + Specificity]` → "Get Started Today — Free Forever Plan"
 
+**Urgency / scarcity patterns (BOFU only — where intent is high):**
+- `[Offer] ends [specific date]` → "Annual Plan 30% Off Ends Dec 31"
+- `Only [number] spots left` → "Only 12 Onboarding Slots Left in Q1"
+- `Last chance — [deadline]` → "Last Chance — Trial Ends Sunday"
+- `[Season/event] pricing — [date]` → "Black Friday Pricing Until Nov 30"
+
+**Critical rule:** Urgency in Google Ads must be *real*. Fake deadlines trigger policy disapprovals ("Unacceptable business practices") and destroy trust when a returning searcher sees the same "last chance" a week later. If scarcity isn't genuine, use a different CTA category.
+
 **Weak CTAs (avoid):**
 - "Learn More" — no specificity, no promise
 - "Click Here" — technically not allowed and adds no value
@@ -142,6 +164,15 @@ Address the hesitation that stops a qualified prospect from clicking.
 | "We're locked into a contract" | "Month-to-Month — Cancel Anytime" |
 | "My team won't adopt it" | "Teams Are Up and Running in a Day" |
 | "I've tried tools like this before" | "Finally, a CRM Your Team Will Actually Use" |
+
+**Curiosity-angle patterns (open-loop — viewer must click to close the loop):**
+Use sparingly; only effective when the payoff on the landing page matches the tease.
+- `What most [audience] get wrong about [topic]` → "What Most CFOs Get Wrong About Forecasting"
+- `[Number] reasons [audience] switched` → "3 Reasons Teams Switched from Spreadsheets"
+- `The [topic] method [authority] uses` → "The Pricing Method Used by YC Founders"
+- `Why [smart audience] choose [category]` → "Why Fast-Growing Teams Choose Us"
+
+**Rule:** A curiosity headline is a promise. If the landing page doesn't deliver the answer, you pay for the click but lose the trust.
 
 ---
 
@@ -280,6 +311,17 @@ Use them to reinforce: `[Category]/[CTA]`, `[Product]/[Offer]`, `[Vertical]/[Ben
 - [ ] Full ad copy refresh for top-spending ad groups
 - [ ] Competitor copy review — what are competitors saying? What angle are they missing?
 - [ ] Run ad variation test on your top ad group with a new headline angle
+
+---
+
+## Copy Quality Tests
+
+Before pushing a new batch of headlines live, run each through these 4 tests. Any "no" = rewrite.
+
+1. **3-second test** — Would someone searching for this keyword click your headline instead of the 3 above it? If you can't answer a clear "yes," the hook isn't earning its slot.
+2. **Curiosity gap test** — Does the headline tease the answer, or give it away? Only applies to curiosity-angle headlines: if they already know the answer by reading it, there's nothing to click for.
+3. **Say-it-out-loud test** — Read the headline aloud. If it's awkward, stiff, or sounds like marketing jargon, rewrite it conversationally. This matters more than you think — Google rewards natural language and so do searchers.
+4. **Truth test** — Is every claim, number, and superlative defensible on the landing page? "Trusted by 10,000+ teams" must match the page's actual number. "Fastest setup" needs a comparison to justify it. Broken promises inflate CTR briefly and destroy conversion rate permanently.
 
 ---
 

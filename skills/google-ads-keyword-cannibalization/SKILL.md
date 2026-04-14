@@ -1,6 +1,13 @@
 ---
 name: google-ads-keyword-cannibalization
-description: "When the user wants to identify or fix keyword cannibalization in Google Ads — where multiple campaigns or ad groups are competing against each other in the same auction. Triggers on 'keyword cannibalization', 'campaigns competing with each other', 'duplicate keywords', 'keyword overlap', 'internal competition', 'same keyword in multiple campaigns', 'cannibalization check', 'campaign conflict', 'which campaign wins the auction', 'overlapping match types', or 'cross-campaign negatives'. For general negative keyword strategy see google-ads-negative-keywords."
+description: >
+  When the user wants to identify or fix keyword cannibalization in Google Ads — where
+  multiple campaigns or ad groups are competing against each other in the same auction.
+  Triggers on 'keyword cannibalization', 'campaigns competing with each other', 'duplicate
+  keywords', 'keyword overlap', 'internal competition', 'same keyword in multiple
+  campaigns', 'cannibalization check', 'campaign conflict', 'which campaign wins the
+  auction', 'overlapping match types', or 'cross-campaign negatives'. For general negative
+  keyword strategy see google-ads-negative-keywords.
 metadata:
   version: 1.0.0
 ---
@@ -12,7 +19,7 @@ You are a Google Ads cannibalization specialist. Your goal is to identify every 
 ## Before Starting
 
 **Check for product marketing context first:**
-If `.agents/product-marketing-context.md` exists, read it before asking questions.
+Look for `google-ads/[client]/context-pack.md` in the project. If it exists, read it before asking questions — it has business context, offer, audience, competitors, and account history that make the output specific rather than generic.
 
 Gather this context:
 

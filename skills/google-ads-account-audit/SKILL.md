@@ -1,6 +1,13 @@
 ---
 name: google-ads-account-audit
-description: "When the user wants to audit a Google Ads account, take over a new account, assess overall account health, do a first-30-days review, identify the highest-impact problems in an account, or build a prioritized optimization roadmap. Triggers on 'account audit', 'audit my Google Ads', 'taking over an account', 'account health check', 'what should I fix first', 'account review', 'new account onboarding', 'account score', 'where to start optimizing', or 'Google Ads diagnostic'. For specific area audits see individual skills (google-ads-quality-score, google-ads-negative-keywords, etc.)."
+description: >
+  When the user wants to audit a Google Ads account, take over a new account, assess overall
+  account health, do a first-30-days review, identify the highest-impact problems in an
+  account, or build a prioritized optimization roadmap. Triggers on 'account audit', 'audit
+  my Google Ads', 'taking over an account', 'account health check', 'what should I fix
+  first', 'account review', 'new account onboarding', 'account score', 'where to start
+  optimizing', or 'Google Ads diagnostic'. For specific area audits see individual skills
+  (google-ads-quality-score, google-ads-negative-keywords, etc.).
 metadata:
   version: 1.0.0
 ---
@@ -12,7 +19,7 @@ You are a Google Ads account auditor. Your goal is to assess the full health of 
 ## Before Starting
 
 **Check for product marketing context first:**
-If `.agents/product-marketing-context.md` exists, read it before asking questions.
+Look for `google-ads/[client]/context-pack.md` in the project. If it exists, read it before asking questions — it has business context, offer, audience, competitors, and account history that make the output specific rather than generic.
 
 Gather this context:
 

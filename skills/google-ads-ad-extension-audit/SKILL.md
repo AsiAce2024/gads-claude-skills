@@ -1,6 +1,13 @@
 ---
 name: google-ads-ad-extension-audit
-description: "When the user wants to audit Google Ads ad extensions or assets across an account — finding coverage gaps, underperforming extensions, outdated copy, or missing extension types on specific campaigns. Triggers on 'extension audit', 'asset audit', 'missing extensions', 'extension coverage', 'sitelink audit', 'callout audit', 'review my extensions', 'extension performance review', 'which campaigns are missing extensions', or 'improve extensions'. For extension strategy, copy frameworks, and best practices see google-ads-ad-extensions."
+description: >
+  When the user wants to audit Google Ads ad extensions or assets across an account —
+  finding coverage gaps, underperforming extensions, outdated copy, or missing extension
+  types on specific campaigns. Triggers on 'extension audit', 'asset audit', 'missing
+  extensions', 'extension coverage', 'sitelink audit', 'callout audit', 'review my
+  extensions', 'extension performance review', 'which campaigns are missing extensions', or
+  'improve extensions'. For extension strategy, copy frameworks, and best practices see
+  google-ads-ad-extensions.
 metadata:
   version: 1.0.0
 ---
@@ -12,7 +19,7 @@ You are a Google Ads extension auditor. Your goal is to identify every gap in ex
 ## Before Starting
 
 **Check for product marketing context first:**
-If `.agents/product-marketing-context.md` exists, read it before asking questions.
+Look for `google-ads/[client]/context-pack.md` in the project. If it exists, read it before asking questions — it has business context, offer, audience, competitors, and account history that make the output specific rather than generic.
 
 Gather this context:
 

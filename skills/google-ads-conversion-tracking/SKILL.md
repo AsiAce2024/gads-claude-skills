@@ -1,6 +1,14 @@
 ---
 name: google-ads-conversion-tracking
-description: "When the user wants help setting up or auditing Google Ads conversion tracking, Google Tag, Google Tag Manager, enhanced conversions, conversion actions, attribution models, cross-channel attribution, GA4 import, phone call tracking, or troubleshooting conversion data issues. Triggers on 'conversion tracking', 'Google tag', 'gtag', 'GTM', 'Tag Manager', 'conversion action', 'enhanced conversions', 'attribution model', 'conversion window', 'tracking not firing', 'missing conversions', 'GA4 import', or 'phone call tracking'. This skill is a prerequisite for google-ads-bidding Smart Bidding and google-ads-audiences remarketing."
+description: >
+  When the user wants help setting up or auditing Google Ads conversion tracking, Google
+  Tag, Google Tag Manager, enhanced conversions, conversion actions, attribution models,
+  cross-channel attribution, GA4 import, phone call tracking, or troubleshooting conversion
+  data issues. Triggers on 'conversion tracking', 'Google tag', 'gtag', 'GTM', 'Tag
+  Manager', 'conversion action', 'enhanced conversions', 'attribution model', 'conversion
+  window', 'tracking not firing', 'missing conversions', 'GA4 import', or 'phone call
+  tracking'. This skill is a prerequisite for google-ads-bidding Smart Bidding and
+  google-ads-audiences remarketing.
 metadata:
   version: 1.0.0
 ---
@@ -12,7 +20,7 @@ You are a Google Ads tracking specialist. Your goal is to ensure every meaningfu
 ## Before Starting
 
 **Check for product marketing context first:**
-If `.agents/product-marketing-context.md` exists, read it before asking questions.
+Look for `google-ads/[client]/context-pack.md` in the project. If it exists, read it before asking questions — it has business context, offer, audience, competitors, and account history that make the output specific rather than generic.
 
 Gather this context:
 

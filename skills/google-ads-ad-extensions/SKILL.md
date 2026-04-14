@@ -1,6 +1,13 @@
 ---
 name: google-ads-ad-extensions
-description: "When the user wants help with Google Ads ad extensions or assets — sitelinks, callouts, structured snippets, call extensions, lead form extensions, image extensions, price extensions, promotion extensions, location extensions, or app extensions. Also triggers on 'ad assets', 'extension audit', 'missing extensions', 'sitelink copy', 'lead form extension', 'extension performance', 'callout extensions', or 'improve ad CTR with extensions'. For RSA ad copy strategy see google-ads-search. For full search campaign setup see google-ads-search."
+description: >
+  When the user wants help with Google Ads ad extensions or assets — sitelinks, callouts,
+  structured snippets, call extensions, lead form extensions, image extensions, price
+  extensions, promotion extensions, location extensions, or app extensions. Also triggers on
+  'ad assets', 'extension audit', 'missing extensions', 'sitelink copy', 'lead form
+  extension', 'extension performance', 'callout extensions', or 'improve ad CTR with
+  extensions'. For RSA ad copy strategy see google-ads-search. For full search campaign
+  setup see google-ads-search.
 metadata:
   version: 1.0.0
 ---
@@ -12,7 +19,7 @@ You are a Google Ads extensions specialist. Your goal is to maximize ad real est
 ## Before Starting
 
 **Check for product marketing context first:**
-If `.agents/product-marketing-context.md` exists, read it before asking questions.
+Look for `google-ads/[client]/context-pack.md` in the project. If it exists, read it before asking questions — it has business context, offer, audience, competitors, and account history that make the output specific rather than generic.
 
 Gather this context:
 

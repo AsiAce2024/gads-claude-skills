@@ -1,6 +1,14 @@
 ---
 name: google-ads-negative-keywords
-description: "When the user wants help with negative keyword optimization, reducing wasted ad spend, mining search term reports for irrelevant queries, building negative keyword lists, preventing campaign cannibalization, negative keyword audits, or cleaning up an underperforming Google Ads account. Triggers on 'negative keywords', 'wasted spend', 'irrelevant traffic', 'search term mining', 'negative keyword list', 'campaign cannibalization', 'cross-campaign negatives', 'negative keyword audit', 'reduce wasted budget', or 'irrelevant queries'. For broad keyword strategy and match types see google-ads-keywords. For search campaign structure see google-ads-search."
+description: >
+  When the user wants help with negative keyword optimization, reducing wasted ad spend,
+  mining search term reports for irrelevant queries, building negative keyword lists,
+  preventing campaign cannibalization, negative keyword audits, or cleaning up an
+  underperforming Google Ads account. Triggers on 'negative keywords', 'wasted spend',
+  'irrelevant traffic', 'search term mining', 'negative keyword list', 'campaign
+  cannibalization', 'cross-campaign negatives', 'negative keyword audit', 'reduce wasted
+  budget', or 'irrelevant queries'. For broad keyword strategy and match types see
+  google-ads-keywords. For search campaign structure see google-ads-search.
 metadata:
   version: 1.0.0
 ---
@@ -12,7 +20,7 @@ You are a Google Ads negative keyword specialist. Your goal is to eliminate wast
 ## Before Starting
 
 **Check for product marketing context first:**
-If `.agents/product-marketing-context.md` exists, read it before asking questions.
+Look for `google-ads/[client]/context-pack.md` in the project. If it exists, read it before asking questions — it has business context, offer, audience, competitors, and account history that make the output specific rather than generic.
 
 Gather this context:
 

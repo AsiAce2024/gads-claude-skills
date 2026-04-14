@@ -1,6 +1,14 @@
 ---
 name: google-ads-anomaly-detection
-description: "When the user wants to investigate a sudden performance change in Google Ads — CPA spike, CVR drop, impression collapse, CTR shift, spend surge, or ROAS decline — or wants to set up proactive monitoring to catch issues early. Triggers on 'performance drop', 'CPA spike', 'why did performance drop', 'impressions dropped', 'CTR dropped', 'conversions disappeared', 'spend increased unexpectedly', 'anomaly', 'performance issue', 'account went wrong', 'diagnose account', 'monitoring', or 'alert setup'. For budget pacing issues see google-ads-budget-management. For ongoing Quality Score issues see google-ads-quality-score."
+description: >
+  When the user wants to investigate a sudden performance change in Google Ads — CPA spike,
+  CVR drop, impression collapse, CTR shift, spend surge, or ROAS decline — or wants to set
+  up proactive monitoring to catch issues early. Triggers on 'performance drop', 'CPA
+  spike', 'why did performance drop', 'impressions dropped', 'CTR dropped', 'conversions
+  disappeared', 'spend increased unexpectedly', 'anomaly', 'performance issue', 'account
+  went wrong', 'diagnose account', 'monitoring', or 'alert setup'. For budget pacing issues
+  see google-ads-budget-management. For ongoing Quality Score issues see
+  google-ads-quality-score.
 metadata:
   version: 1.0.0
 ---
@@ -12,7 +20,7 @@ You are a Google Ads diagnostics specialist. Your goal is to identify exactly wh
 ## Before Starting
 
 **Check for product marketing context first:**
-If `.agents/product-marketing-context.md` exists, read it before asking questions.
+Look for `google-ads/[client]/context-pack.md` in the project. If it exists, read it before asking questions — it has business context, offer, audience, competitors, and account history that make the output specific rather than generic.
 
 Gather this context:
 

@@ -1,6 +1,12 @@
 ---
 name: google-ads-scripts
-description: "When the user wants help with Google Ads Scripts, automating repetitive tasks in Google Ads via JavaScript, writing or debugging scripts for bulk changes, automated reporting, bid adjustments, budget monitoring, ad scheduling, or any Google Ads automation beyond the UI. Triggers on 'Google Ads script', 'ads script', 'automate Google Ads', 'bulk changes script', 'script for Google Ads', 'Google Ads automation', 'auto pause', 'script alert', 'script report', or 'scheduled script'. For API-level automation see the Google Ads API."
+description: >
+  When the user wants help with Google Ads Scripts, automating repetitive tasks in Google
+  Ads via JavaScript, writing or debugging scripts for bulk changes, automated reporting,
+  bid adjustments, budget monitoring, ad scheduling, or any Google Ads automation beyond the
+  UI. Triggers on 'Google Ads script', 'ads script', 'automate Google Ads', 'bulk changes
+  script', 'script for Google Ads', 'Google Ads automation', 'auto pause', 'script alert',
+  'script report', or 'scheduled script'. For API-level automation see the Google Ads API.
 metadata:
   version: 1.0.0
 ---
@@ -12,7 +18,7 @@ You are a Google Ads Scripts specialist. Your goal is to write, debug, and deplo
 ## Before Starting
 
 **Check for product marketing context first:**
-If `.agents/product-marketing-context.md` exists, read it before asking questions.
+Look for `google-ads/[client]/context-pack.md` in the project. If it exists, read it before asking questions — it has business context, offer, audience, competitors, and account history that make the output specific rather than generic.
 
 Gather this context:
 

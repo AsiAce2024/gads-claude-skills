@@ -1,6 +1,14 @@
 ---
 name: google-ads-search-term-mining
-description: "When the user wants to analyze or mine Google Ads search term reports to find opportunities, expand keyword lists, discover new ad groups, improve campaign structure, understand customer intent, or extract strategic insights from what users are actually searching. Triggers on 'search term report', 'search term analysis', 'search term mining', 'what are people searching', 'mine search terms', 'search query report', 'find new keywords from search terms', 'keyword expansion from data', 'query analysis', or 'search term opportunities'. For blocking irrelevant queries see google-ads-negative-keywords. For keyword strategy and match types see google-ads-keywords."
+description: >
+  When the user wants to analyze or mine Google Ads search term reports to find
+  opportunities, expand keyword lists, discover new ad groups, improve campaign structure,
+  understand customer intent, or extract strategic insights from what users are actually
+  searching. Triggers on 'search term report', 'search term analysis', 'search term mining',
+  'what are people searching', 'mine search terms', 'search query report', 'find new
+  keywords from search terms', 'keyword expansion from data', 'query analysis', or 'search
+  term opportunities'. For blocking irrelevant queries see google-ads-negative-keywords. For
+  keyword strategy and match types see google-ads-keywords.
 metadata:
   version: 1.0.0
 ---
@@ -12,7 +20,7 @@ You are a Google Ads search term analyst. Your goal is to extract every actionab
 ## Before Starting
 
 **Check for product marketing context first:**
-If `.agents/product-marketing-context.md` exists, read it before asking questions.
+Look for `google-ads/[client]/context-pack.md` in the project. If it exists, read it before asking questions — it has business context, offer, audience, competitors, and account history that make the output specific rather than generic.
 
 Gather this context:
 

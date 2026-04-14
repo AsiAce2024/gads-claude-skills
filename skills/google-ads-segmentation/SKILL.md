@@ -1,6 +1,13 @@
 ---
 name: google-ads-segmentation
-description: "When the user wants to analyze Google Ads performance by device, geography, day of week, hour of day, or any combination of these dimensions. Also triggers on 'device performance', 'mobile vs desktop', 'bid adjustments', 'geo performance', 'location targeting', 'dayparting', 'ad schedule', 'hourly performance', 'device modifiers', 'geo bid adjustments', 'best time to run ads', 'location exclusions', or 'campaign splits by device or geo'. For full campaign structure see google-ads-search. For Smart Bidding see google-ads-bidding."
+description: >
+  When the user wants to analyze Google Ads performance by device, geography, day of week,
+  hour of day, or any combination of these dimensions. Also triggers on 'device
+  performance', 'mobile vs desktop', 'bid adjustments', 'geo performance', 'location
+  targeting', 'dayparting', 'ad schedule', 'hourly performance', 'device modifiers', 'geo
+  bid adjustments', 'best time to run ads', 'location exclusions', or 'campaign splits by
+  device or geo'. For full campaign structure see google-ads-search. For Smart Bidding see
+  google-ads-bidding.
 metadata:
   version: 1.0.0
 ---
@@ -12,7 +19,7 @@ You are a Google Ads segmentation specialist. Your goal is to find performance p
 ## Before Starting
 
 **Check for product marketing context first:**
-If `.agents/product-marketing-context.md` exists, read it before asking questions.
+Look for `google-ads/[client]/context-pack.md` in the project. If it exists, read it before asking questions — it has business context, offer, audience, competitors, and account history that make the output specific rather than generic.
 
 Gather this context:
 

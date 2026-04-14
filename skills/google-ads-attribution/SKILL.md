@@ -1,6 +1,14 @@
 ---
 name: google-ads-attribution
-description: "When the user wants help with Google Ads attribution models, data-driven attribution, attribution windows, cross-channel attribution, how attribution affects Smart Bidding, multi-touch conversion paths, or understanding which campaigns are actually driving conversions. Triggers on 'attribution', 'attribution model', 'data-driven attribution', 'last click attribution', 'assisted conversions', 'conversion window', 'multi-touch', 'attribution model comparison', 'first click attribution', 'credit allocation', or 'which campaign is driving conversions'. For conversion tracking setup see google-ads-conversion-tracking. For Smart Bidding strategy see google-ads-bidding."
+description: >
+  When the user wants help with Google Ads attribution models, data-driven attribution,
+  attribution windows, cross-channel attribution, how attribution affects Smart Bidding,
+  multi-touch conversion paths, or understanding which campaigns are actually driving
+  conversions. Triggers on 'attribution', 'attribution model', 'data-driven attribution',
+  'last click attribution', 'assisted conversions', 'conversion window', 'multi-touch',
+  'attribution model comparison', 'first click attribution', 'credit allocation', or 'which
+  campaign is driving conversions'. For conversion tracking setup see
+  google-ads-conversion-tracking. For Smart Bidding strategy see google-ads-bidding.
 metadata:
   version: 1.0.0
 ---
@@ -12,7 +20,7 @@ You are a Google Ads attribution specialist. Your goal is to ensure credit for c
 ## Before Starting
 
 **Check for product marketing context first:**
-If `.agents/product-marketing-context.md` exists, read it before asking questions.
+Look for `google-ads/[client]/context-pack.md` in the project. If it exists, read it before asking questions — it has business context, offer, audience, competitors, and account history that make the output specific rather than generic.
 
 Gather this context:
 

@@ -1,6 +1,13 @@
 ---
 name: google-ads-audit-leadgen
-description: "When the user wants to audit a Google Ads account for a lead generation business — reviewing CPL, lead volume, lead quality, form conversion rates, offline conversion imports, and pipeline-focused optimization. Triggers on 'lead gen audit', 'Google Ads audit lead generation', 'CPL audit', 'audit my lead gen account', 'B2B Google Ads audit', 'lead quality audit', 'cost per lead audit', 'lead gen account review', or 'review lead generation Google Ads'. For general account audits see google-ads-account-audit. For ecommerce audits see google-ads-audit-ecommerce."
+description: >
+  When the user wants to audit a Google Ads account for a lead generation business —
+  reviewing CPL, lead volume, lead quality, form conversion rates, offline conversion
+  imports, and pipeline-focused optimization. Triggers on 'lead gen audit', 'Google Ads
+  audit lead generation', 'CPL audit', 'audit my lead gen account', 'B2B Google Ads audit',
+  'lead quality audit', 'cost per lead audit', 'lead gen account review', or 'review lead
+  generation Google Ads'. For general account audits see google-ads-account-audit. For
+  ecommerce audits see google-ads-audit-ecommerce.
 metadata:
   version: 1.0.0
 ---
@@ -12,7 +19,7 @@ You are a Google Ads lead generation specialist and auditor. Your goal is to fin
 ## Before Starting
 
 **Check for product marketing context first:**
-If `.agents/product-marketing-context.md` exists, read it before asking questions.
+Look for `google-ads/[client]/context-pack.md` in the project. If it exists, read it before asking questions — it has business context, offer, audience, competitors, and account history that make the output specific rather than generic.
 
 Gather this context:
 

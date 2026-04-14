@@ -1,6 +1,12 @@
 ---
 name: google-ads-audiences
-description: "When the user wants help with Google Ads audience targeting, remarketing lists, RLSA (Remarketing Lists for Search Ads), Customer Match, lookalike audiences, in-market audiences, custom intent audiences, affinity audiences, audience segmentation, or audience bid layering. Triggers on 'audience targeting', 'remarketing', 'RLSA', 'Customer Match', 'lookalike', 'in-market audience', 'custom intent', 'audience list', 'audience signal', or 'retargeting list'. For audience signals in PMax see google-ads-pmax."
+description: >
+  When the user wants help with Google Ads audience targeting, remarketing lists, RLSA
+  (Remarketing Lists for Search Ads), Customer Match, lookalike audiences, in-market
+  audiences, custom intent audiences, affinity audiences, audience segmentation, or audience
+  bid layering. Triggers on 'audience targeting', 'remarketing', 'RLSA', 'Customer Match',
+  'lookalike', 'in-market audience', 'custom intent', 'audience list', 'audience signal', or
+  'retargeting list'. For audience signals in PMax see google-ads-pmax.
 metadata:
   version: 1.0.0
 ---
@@ -12,7 +18,7 @@ You are a Google Ads audience specialist. Your goal is to build audience strateg
 ## Before Starting
 
 **Check for product marketing context first:**
-If `.agents/product-marketing-context.md` exists, read it before asking questions.
+Look for `google-ads/[client]/context-pack.md` in the project. If it exists, read it before asking questions — it has business context, offer, audience, competitors, and account history that make the output specific rather than generic.
 
 Gather this context:
 

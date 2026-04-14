@@ -1,6 +1,13 @@
 ---
 name: google-ads-experiments
-description: "When the user wants to set up or analyze a Google Ads experiment, A/B test, ad variation test, campaign draft, split test, or bid strategy experiment. Also triggers on 'Google Ads experiments', 'campaign experiment', 'ad variation test', 'split test', 'test bid strategy', 'A/B test ads', 'test landing page', 'statistical significance', 'experiment setup', 'control vs treatment', 'uplift test', or 'test new campaign structure'. For ongoing keyword and ad copy optimization see google-ads-search. For bid strategy choices see google-ads-bidding."
+description: >
+  When the user wants to set up or analyze a Google Ads experiment, A/B test, ad variation
+  test, campaign draft, split test, or bid strategy experiment. Also triggers on 'Google Ads
+  experiments', 'campaign experiment', 'ad variation test', 'split test', 'test bid
+  strategy', 'A/B test ads', 'test landing page', 'statistical significance', 'experiment
+  setup', 'control vs treatment', 'uplift test', or 'test new campaign structure'. For
+  ongoing keyword and ad copy optimization see google-ads-search. For bid strategy choices
+  see google-ads-bidding.
 metadata:
   version: 1.0.0
 ---
@@ -12,7 +19,7 @@ You are a Google Ads testing specialist. Your goal is to design experiments that
 ## Before Starting
 
 **Check for product marketing context first:**
-If `.agents/product-marketing-context.md` exists, read it before asking questions.
+Look for `google-ads/[client]/context-pack.md` in the project. If it exists, read it before asking questions — it has business context, offer, audience, competitors, and account history that make the output specific rather than generic.
 
 Gather this context:
 
@@ -48,6 +55,47 @@ Most Google Ads "tests" fail for one of three reasons:
 
 Bad hypothesis: "Let's try a new headline."
 Good hypothesis: "Adding a specific outcome to Headline 1 ('Close Deals Faster') will increase CTR compared to our current feature-led headline ('CRM with Pipeline Tracking') because benefit-led copy outperforms feature-led copy for our ICP."
+
+### Hypothesis templates
+
+Fill in one template per test — keep these in the test log entry so you can read the result against the intent later.
+
+**RSA copy / headline test:**
+```
+Changing [specific element — e.g., Headline 1] from "[current]" to "[variant]"
+will increase [CTR / CVR] by [X]% because [reasoning — e.g., it uses a specific
+outcome rather than a feature, addresses the searcher's main objection, etc.].
+Control: "[current]"
+Variant: "[variant]"
+Primary: [CTR / CVR] | Guardrail: [metric that must not worsen]
+```
+
+**Landing page test:**
+```
+Changing [hero headline / CTA / form length / social proof placement] on the LP
+will increase [CVR] by [X]% because [the new variant better matches keyword
+intent / removes a friction point / adds trust above the fold].
+Control: [current LP description] | Variant: [change description]
+Primary: LP CVR | Guardrail: Bounce rate, CPA
+```
+
+**Bid strategy test:**
+```
+Switching from [Manual CPC / tCPA $X] to [tCPA $Y / Maximize Conversions] will
+maintain or improve CPA because [account has enough conversion volume for Smart
+Bidding to learn / current manual bids are leaving auctions].
+Control: [current strategy] | Variant: [new strategy]
+Primary: CPA | Guardrail: Conversion volume (must stay ≥ control)
+```
+
+**Audience / targeting test:**
+```
+Adding [audience exclusion / observation layer / in-market segment] to the
+campaign will decrease CPA by [X]% because [current traffic includes too many
+unqualified searches / the new segment matches our buyer profile].
+Control: [current targeting] | Variant: [new targeting]
+Primary: CPA | Guardrail: Impressions (must not collapse)
+```
 
 ---
 
@@ -143,7 +191,17 @@ Days needed = Required conversions per variant / (Current daily conversions × 0
 - Required per variant: 400
 - Days needed: 400 / (15 × 0.5) = 400 / 7.5 = 53 days
 
-**Minimum duration regardless of sample size: 2 weeks.** Weekly seasonality patterns need time to even out — a test starting on Monday and ending the following Monday over-indexes on Mondays.
+**Minimum duration regardless of sample size** — varies by test type. Always cover full weekly cycles to neutralize day-of-week bias:
+
+| Test type | Minimum | Why |
+|---|---|---|
+| Ad copy / RSA variation | 7 days | Covers one full weekday + weekend cycle |
+| Landing page | 14 days | Page behavior needs two full weekly cycles to stabilize |
+| Audience / targeting | 14 days | Google needs time to optimize delivery against the new segment |
+| Bid strategy (Manual → Smart) | 21 days | Smart Bidding learning period is 2-4 weeks; ending sooner guarantees false negatives |
+| Budget / structure | 21 days | Spend-shape effects need three full weekly cycles to reveal |
+
+A test starting Monday and ending the following Monday over-indexes on Mondays — always run in 7-day multiples.
 
 **Maximum recommended duration: 8 weeks.** Beyond 8 weeks, external factors (seasonality, competitor changes) contaminate the results.
 
@@ -287,10 +345,24 @@ Not all tests are equal. Prioritize by potential impact, then by ease of setup.
 
 ## Post-Test Decision Framework
 
-After a test reaches significance, apply this decision tree:
+Before declaring a winner, run through these 4 gates in order. Skip any one and the decision is premature:
+
+**Gate 1 — Sample size.** Has the test reached the pre-calculated number of conversions per variant? If not, keep running. No exceptions, no peeking.
+
+**Gate 2 — Statistical significance.** Is confidence ≥ 95% on the primary metric? If 80-95%, extend the test. If <80%, it's noise — end with no change.
+
+**Gate 3 — Practical significance.** Is the lift ≥ 10% on the primary KPI, and is that delta worth implementing at the current spend level? A statistically significant +3% CVR may not move the needle on a $2K/mo campaign.
+
+**Gate 4 — Guardrail metrics.** Did any guardrail (CPA, CVR, AOV, conversion volume) meaningfully worsen? A +15% CTR that came with a -25% CVR means you bought unqualified clicks — don't roll it out.
+
+Only if all four gates pass: roll out, document the learning, queue the next test.
+
+---
+
+Quick decision tree (after the 4 gates):
 
 ```
-Experiment shows significant improvement?
+All 4 gates pass?
 ├── YES → Roll out to full campaign; document the learning; queue next test
 ├── NO (inconclusive) → Extend by 2 weeks if close to significance; otherwise end with no change
 └── NEGATIVE result → Do NOT roll out; document why the hypothesis was wrong; learn from it
@@ -332,6 +404,15 @@ Experiment shows significant improvement?
 
 **Calling the test too early**
 Checking results daily and calling a winner when you see a positive trend at 10 days. Statistical significance requires reaching the pre-calculated sample size — not just a positive direction. p=0.15 is not a winner.
+
+**Peeking at daily results and reacting emotionally**
+Early leads often reverse with more data — the first 48 hours are the noisiest part of any test. Pre-commit to the duration and don't look until the window closes, or set a single mid-check with a clear rule (e.g., "kill the variant only if it's >30% worse after 7 days"). Daily-peek-and-tweak is the single most common way tests get corrupted.
+
+**Breaking the 7-day cycle**
+Ending a test on Thursday when you started on Monday means the results are weighted toward weekday behavior. Always run in 7-day multiples so weekends are represented proportionally.
+
+**Running tests on campaigns with too little volume**
+If the campaign generates <10 conversions/day and you need 400 per variant to detect a 20% lift, the test needs ~80 days — by then, seasonality and competitor changes will contaminate the result. For low-volume campaigns, use observational comparisons over 60-90 day windows instead of a formal split test.
 
 **Changing the experiment mid-run**
 Adjusting the budget, swapping the landing page URL, or pausing keywords mid-test contaminates the results. If you change anything, restart the test.
