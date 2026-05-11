@@ -9,7 +9,7 @@ description: >
   full thorough audit use google-ads-account-audit instead — this skill trades
   depth for speed and impact.
 metadata:
-  version: 0.1.1
+  version: 0.1.2
   author: Asi Meir
 ---
 
@@ -188,7 +188,7 @@ conditions: [segments.date BETWEEN '{start_date}' AND '{end_date}',
 
 After all 5 checks return, do this:
 
-1. **Compute money estimates per finding** using the rules above. Always round to clean numbers ($1,200, not $1,178.43).
+1. **Compute money estimates per finding** using the rules above. Always round to clean numbers (e.g. ₪1,200, not ₪1,178.43). Use the account's actual currency symbol — ₪ for ILS, the dollar sign for USD, £ for GBP, etc. Pull from `customer.currency_code` (queried in Check 3a).
 2. **Rank findings** by absolute dollar impact.
 3. **Split into "mistakes" (recoverable waste) and "wins" (upside opportunity)**:
    - Checks 1, 3, 5 → mistakes (money already being lost)
@@ -208,24 +208,24 @@ Render the report as plain markdown — screen-shareable during a live demo.
 *Last [N] days · Generated [YYYY-MM-DD]*
 
 ## At a glance
-- **Spend:** $X,XXX
+- **Spend:** {symbol}X,XXX
 - **Conversions:** XXX
-- **CPA:** $XX  ·  **CTR:** X.X%  ·  **Conv rate:** X.X%
+- **CPA:** {symbol}XX  ·  **CTR:** X.X%  ·  **Conv rate:** X.X%
 
 ---
 
 ## 🔴 3 most expensive mistakes
 
 ### 1. [Plain-language finding]
-**Costing roughly $XXX/month.**
+**Costing roughly {symbol}XXX/month.**
 *Fix:* [one specific action]
 
 ### 2. [Finding]
-**Costing roughly $XXX/month.**
+**Costing roughly {symbol}XXX/month.**
 *Fix:* [action]
 
 ### 3. [Finding]
-**Costing roughly $XXX/month.**
+**Costing roughly {symbol}XXX/month.**
 *Fix:* [action]
 
 ---
@@ -233,22 +233,24 @@ Render the report as plain markdown — screen-shareable during a live demo.
 ## 🟢 3 quickest wins
 
 ### 1. [Finding]
-**Could recover/earn roughly $XXX/month.**
+**Could recover/earn roughly {symbol}XXX/month.**
 *Fix:* [action]
 
 ### 2. [Finding]
-**Could recover/earn roughly $XXX/month.**
+**Could recover/earn roughly {symbol}XXX/month.**
 *Fix:* [action]
 
 ### 3. [Finding]
-**Could recover/earn roughly $XXX/month.**
+**Could recover/earn roughly {symbol}XXX/month.**
 *Fix:* [action]
 
 ---
 
-## Total recoverable: $X,XXX/month
+## Total recoverable: {symbol}X,XXX/month
 *Estimates use industry-typical recovery rates and your current account metrics. Real outcomes depend on execution.*
 ```
+
+In the actual rendered report, substitute `{symbol}` with the real currency mark (the literal placeholder is only here in the template because `$` followed by digits can be interpreted as a positional variable by some skill loaders).
 
 ---
 
