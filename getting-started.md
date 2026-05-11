@@ -287,7 +287,7 @@ Once your data connector is working, install the skills. This gives your agent d
 Run this in your terminal:
 
 ```bash
-npx skills add eliasmalm/google-ads-skills
+npx skills add AsiAce2024/gads-claude-skills
 ```
 
 > 📸 **Screenshot:** Terminal showing the `npx skills add` command running and completing successfully, with a list of skills installed
@@ -366,7 +366,7 @@ I have a CPA target of $50 — which campaigns are over target and why?
 
 ### Skills not loading
 
-- Run `npx skills add eliasmalm/google-ads-skills` again to reinstall
+- Run `npx skills add AsiAce2024/gads-claude-skills` again to reinstall
 - Check you're running a recent version of Node.js (`node -v` should return v18+)
 
 ---
@@ -392,7 +392,8 @@ Understanding what this setup **cannot** do is as important as knowing what it c
 
 | Resource | Link |
 |----------|------|
-| GitHub — All skills and setup guides | [github.com/eliasmalm/google-ads-skills](https://github.com/eliasmalm/google-ads-skills) |
+| GitHub — This pack (install + setup guides + Asi-original skills) | [github.com/AsiAce2024/gads-claude-skills](https://github.com/AsiAce2024/gads-claude-skills) |
+| GitHub — Original 21 skills by Elias Malm Sandberg (MIT) | [github.com/eliasmalmsandberg/google-ads-skills](https://github.com/eliasmalmsandberg/google-ads-skills) |
 | Detailed Windsor setup | [setup/windsor-mcp.md](setup/windsor-mcp.md) |
 | Detailed Supermetrics setup | [setup/supermetrics-mcp.md](setup/supermetrics-mcp.md) |
 | Detailed Official MCP setup | [setup/google-ads-mcp.md](setup/google-ads-mcp.md) |

@@ -28,8 +28,10 @@ New here? The **[Getting Started Guide](getting-started.md)** walks through each
 **Step 2 — Install the skills:**
 
 ```bash
-npx skills add eliasmalm/google-ads-skills
+npx skills add AsiAce2024/gads-claude-skills
 ```
+
+This pack bundles the 21 original Google Ads skills by [Elias Malm Sandberg](https://github.com/eliasmalmsandberg/google-ads-skills) (MIT-licensed) plus additional skills authored by Asi Meir — currently `gads-account-xray`, with more on the way.
 
 ---
 
@@ -74,7 +76,7 @@ Data Connector  ←  Windsor / Supermetrics / Official Google Ads MCP
       ↓
 AI Agent        ←  Claude / Cursor / Windsurf / Gemini CLI
       ↓
-Skills          ←  npx skills add eliasmalm/google-ads-skills
+Skills          ←  npx skills add AsiAce2024/gads-claude-skills
 ```
 
 The data connector gives the agent access to your live account data. The skills give it the domain expertise to do something useful with it.
